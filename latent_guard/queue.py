@@ -6,6 +6,7 @@ file so the whole thing runs with zero dependencies.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import time
@@ -13,9 +14,20 @@ import time
 DECISIONS = {"confirmed": "hallucinated", "released": "clean"}
 
 
+def _sha(text: str) -> str:
+    return hashlib.sha256(text.encode()).hexdigest()
+
+
 class ReviewQueue:
-    def __init__(self, path: str):
+    def __init__(self, path: str, store_text: bool = True):
+        """store_text=False keeps hashes of prompt/answer, never the text.
+
+        Latent's own records are hash-only. Use hash mode for anything
+        beyond a local demo, so reviewed examples cannot leak the
+        original prompt or answer out of the queue file.
+        """
         self.path = path
+        self.store_text = store_text
         self.entries: dict = {}
         if os.path.exists(path):
             with open(path, encoding="utf-8") as f:
@@ -31,8 +43,10 @@ class ReviewQueue:
     def add(self, result: dict, prompt: str, answer: str) -> dict:
         entry = {
             "request_id": result["request_id"],
-            "prompt": prompt,
-            "answer": answer,
+            "prompt": prompt if self.store_text else _sha(prompt),
+            "answer": answer if self.store_text else _sha(answer),
+            "prompt_sha256": _sha(prompt),
+            "answer_sha256": _sha(answer),
             "verdict": result["verdict"],
             "risk": result["risk"],
             "sentences": result["sentences"],

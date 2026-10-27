@@ -1,8 +1,8 @@
-# latent_guard: an offline checker on Latent's /score contract
+# latent_guard: an offline checker shaped like Latent's check() call
 
-Latent flags the failures that sink AI answers: made up numbers, wrong dates, invented names. This is a small version of that layer, built to Latent's own public contract, that runs anywhere a hosted reader cannot.
+Latent flags the failures that sink AI answers: made up numbers, wrong dates, invented names. This is a small local checker shaped like the Python call `runlatent.check(prompt, answer, context=...)`, that runs anywhere a hosted reader cannot. It is not the reader, and it is not drop-in compatible with Latent's raw `/score` body.
 
-It takes the same shape Latent's SDK posts to `/score`: prompt, answer, and source context in, a verdict plus one risk score per sentence out. It needs no API key, no GPU, and no network, so it works air-gapped, or as a cheap first pass that only sends flagged answers on to a stronger judge.
+The distinction matters. The SDK's `check()` takes prompt, answer, and context, renders the context as a `Knowledge:` line in the messages, and posts messages, output, and context to `/score`. The sentence read in the reply's detail block carries start and end offsets, text, and risk, with no failure kinds and no reasons. Verdicts are `pass`, `escalate`, or `ood`, plus `unscored` and `unknown` when the read did not happen. This repo's checker invents the failure kinds and reasons, returns only `pass` or `escalate`, and has no unscored path of its own. The real reader is reached through `latent_guard/reader.py`, which wraps `runlatent.check()` and keeps its verdicts, sentence offsets, and unscored handling intact. Use that wrapper for any claim about Latent. Use this checker only as a cheap local pre-filter, and say so.
 
 ## What it checks
 
@@ -27,7 +27,9 @@ Risk 0.70 or above escalates. Below that, the answer passes, with per-sentence r
 
 Per kind, escalated: unsupported number 3/3, wrong date 3/3, invented name 3/3, unsupported claim 0/3. The unsupported claims were all surfaced at sentence level (risk 0.60), just below the threshold. That gap is real and is stated here, not hidden.
 
-Tests: 9/9 passing, stdlib unittest only. Full rows are in `benchmark/results.json`.
+Tests: 19/19 passing, stdlib unittest only, including the reader wrapper, guardrail, hash-only queue, and server alias tests. Full rows are in `benchmark/results.json`.
+
+On the harder 30-case adversarial set in `eval/adversarial_cases.json` (unit conversions, date formats, same-token contradictions, negation, single names, no-source cases), the local checker scores precision 0.67 and recall 0.44: it false-flags both format variants and misses every contradiction and negation. The reader column in `eval/results.json` is not run, because no key exists here. That gap is the reason the checker is a pre-filter only.
 
 ## Try it
 
@@ -51,7 +53,7 @@ curl -X POST http://127.0.0.1:8765/score \
   -d '{"prompt": "Summarize the report.", "answer": "Revenue was $9.9 million.", "context": "Revenue was $4.2 million."}'
 ```
 
-Response: verdict, risk, per-sentence risks and reasons, plus `queue_status`. Flagged answers wait in a review queue:
+Response: verdict, risk, per-sentence risks, reasons, and start/end offsets, plus `queue_status`. The reasons and offsets are this shim's own: the real reader's sentences carry start, end, text, and risk only. The sidecar also accepts `output` as an alias for `answer`, matching the raw `/score` body field name. Flagged answers wait in a review queue:
 
 - `GET /queue`: flagged answers awaiting a human decision.
 - `POST /review`: `{"request_id": "...", "decision": "confirmed" | "released", "note": "..."}`. Each decision becomes one labeled example.
@@ -75,11 +77,21 @@ Set `PORT` and `LATENT_GUARD_DATA` to change the port and data directory. No dep
 
 1. This checker only catches hallucinations that reuse a number, date, or name absent from the context, or a claim with no shared content words. A wrong answer built only from in-context facts, combined wrongly, will pass. That is the same class of limit Latent's own research notes flag for probe based detection.
 2. The benchmark is a 24-case fixture set written for this build, not a general accuracy claim. The recall gap on freeform unsupported claims is real.
-3. No Latent API key, no GPU, no live model calls. Answers in the demo and benchmark are fixed strings. Latent's cloud API was not called. The contract was read from the public `runlatent` 0.3.9 wheel on PyPI.
+3. No Latent API key, no GPU, no live model calls. Answers in the demo and benchmark are fixed strings. Latent's cloud API was not called. The contract was read from the public `runlatent` 0.3.9 wheel on PyPI. The review queue also differs from Latent's console in one important way: by default it stores full prompt and answer text in a JSON file. Latent's site says each scored request writes a hash-only record, never the text. Set `LATENT_GUARD_STORE_TEXT=0` for hash-only queue storage in this repo, and use it for anything beyond a local demo.
+4. The first version had no fail-open or fail-closed behavior, no streaming cut, no `ood` or `unscored` verdicts, and no action reporting. The guardrail in `latent_guard/guard.py` adds those, on top of the real reader when it is configured, and labels the local checker as a pre-filter only when it is not.
 4. No job posting was found for this Latent. This is a founder play, not an application to a posted role. The ask in the outreach is a 20-minute call or a 2-week trial, not a claim about a role.
 
-## What is next
+## The real loop
 
-The useful next step is to run this next to the real reader: same prompt, answer, and context through both, compare verdicts on real traffic, and tune the threshold and the unsupported-claim signal on labeled review decisions from the queue. That needs a Latent dashboard key if you want the real reader in the loop. I am happy to run it as a 2-week trial against your reader, or walk through the code live.
+`eval/run_eval.py` runs the same cases through the local checker and through the real reader, side by side, and refuses to invent the reader's numbers. Without a key it reports the reader column as not run. With a key it compares verdicts, per-kind recall, unscored counts, and latency, and lists every case where the two disagree.
+
+```bash
+pip install "runlatent==0.3.9"
+export LATENT_API_URL="https://app.runlatent.ai"
+export LATENT_API_KEY="your key here"
+python eval/run_eval.py
+```
+
+`latent_guard/guard.py` is the guardrail to use in a real app: it calls the reader, holds, replaces, or re-routes a flagged answer, and when the read did not happen it follows the fail-open or fail-closed setting you chose, and says which one it followed. The local checker is never presented as the reader's verdict.
 
 Built by Depika Gupta, AI and backend engineer. I build LangChain multi-agent systems, RAG, and LLM observability at a remote US startup. github.com/depikaguptaa

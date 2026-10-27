@@ -27,7 +27,8 @@ from latent_guard.scorer import score_answer  # noqa: E402
 
 DATA_DIR = os.environ.get("LATENT_GUARD_DATA", os.path.join(os.getcwd(), "data"))
 os.makedirs(DATA_DIR, exist_ok=True)
-QUEUE = ReviewQueue(os.path.join(DATA_DIR, "queue.json"))
+STORE_TEXT = os.environ.get("LATENT_GUARD_STORE_TEXT", "1") != "0"
+QUEUE = ReviewQueue(os.path.join(DATA_DIR, "queue.json"), store_text=STORE_TEXT)
 STARTED = time.time()
 LATENCIES: list = []
 
@@ -57,11 +58,26 @@ class Handler(BaseHTTPRequestHandler):
         except Exception:
             return _send(self, 400, {"error": "invalid JSON"})
         if path == "/score":
-            if not body.get("answer"):
+            # Accept "output" as an alias for "answer", matching the raw
+            # /score body field name. This is still the local shim, not
+            # Latent's reader: see README and latent_guard/reader.py.
+            answer = body.get("answer") or body.get("output")
+            if not answer:
                 return _send(self, 400, {"error": "answer is required"})
-            result = score_answer(body.get("prompt", ""), body["answer"], body.get("context", ""))
+            result = score_answer(body.get("prompt", ""), answer, body.get("context", ""))
+            # Add sentence offsets, like the reader's detail block: the
+            # local checker reports text and risk only, so offsets are
+            # computed by walking the answer in order.
+            offset = 0
+            for sentence in result["sentences"]:
+                start = answer.find(sentence["text"], offset)
+                sentence["start"] = start if start >= 0 else None
+                sentence["end"] = (start + len(sentence["text"])) if start >= 0 else None
+                offset = (start + len(sentence["text"])) if start >= 0 else offset
+            result["scored"] = True
+            result["source"] = "local"
             LATENCIES.append(result["latency_ms"])
-            entry = QUEUE.add(result, body.get("prompt", ""), body["answer"])
+            entry = QUEUE.add(result, body.get("prompt", ""), answer)
             return _send(self, 200, {**result, "queue_status": entry["status"]})
         if path == "/review":
             try:
