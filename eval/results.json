@@ -1,6 +1,6 @@
 {
  "cases": 54,
- "reader_configured": false,
+ "reader_configured": true,
  "local": {
   "cases": 52,
   "true_positives": 17,
@@ -9,217 +9,88 @@
   "true_negatives": 18,
   "precision": 0.8095,
   "recall": 0.5667,
-  "mean_latency_ms": 0.12
+  "mean_latency_ms": 0.307
  },
  "reader": {
-  "cases": 0,
-  "true_positives": 0,
-  "false_negatives": 0,
-  "false_positives": 0,
-  "true_negatives": 0,
-  "precision": null,
-  "recall": null,
-  "mean_latency_ms": null,
+  "cases": 52,
+  "true_positives": 26,
+  "false_negatives": 4,
+  "false_positives": 1,
+  "true_negatives": 21,
+  "precision": 0.963,
+  "recall": 0.8667,
+  "mean_latency_ms": 928.728,
   "unscored_count": 0,
-  "unscored_correct": 0,
-  "status": "not_run",
-  "reason": "runlatent is not installed: No module named 'runlatent'"
+  "unscored_correct": 0
  },
  "per_kind": {
   "clean": {
    "n": 16,
    "local_escalated": 0,
-   "reader_escalated": null
+   "reader_escalated": 0
   },
   "clean_paraphrase": {
    "n": 2,
    "local_escalated": 0,
-   "reader_escalated": null
+   "reader_escalated": 0
   },
   "date_format": {
    "n": 2,
    "local_escalated": 2,
-   "reader_escalated": null
+   "reader_escalated": 0
   },
   "invented_name": {
    "n": 6,
    "local_escalated": 5,
-   "reader_escalated": null
+   "reader_escalated": 6
   },
   "negation": {
    "n": 2,
    "local_escalated": 0,
-   "reader_escalated": null
+   "reader_escalated": 0
   },
   "no_source": {
    "n": 2,
    "local_escalated": 2,
-   "reader_escalated": null
+   "reader_escalated": 0
   },
   "same_token_contradiction": {
    "n": 2,
    "local_escalated": 0,
-   "reader_escalated": null
+   "reader_escalated": 2
   },
   "single_name": {
    "n": 1,
    "local_escalated": 0,
-   "reader_escalated": null
+   "reader_escalated": 1
   },
   "unit_conversion": {
    "n": 2,
    "local_escalated": 2,
-   "reader_escalated": null
+   "reader_escalated": 1
   },
   "unsupported_claim": {
    "n": 6,
    "local_escalated": 0,
-   "reader_escalated": null
+   "reader_escalated": 6
   },
   "unsupported_number": {
    "n": 6,
    "local_escalated": 6,
-   "reader_escalated": null
+   "reader_escalated": 5
   },
   "wrong_combination": {
    "n": 1,
    "local_escalated": 0,
-   "reader_escalated": null
+   "reader_escalated": 1
   },
   "wrong_date": {
    "n": 6,
    "local_escalated": 6,
-   "reader_escalated": null
+   "reader_escalated": 5
   }
  },
- "disagreements": [],
- "rows": [
-  {
-   "source": "adversarial",
-   "id": "clean-01",
-   "kind": "clean",
-   "expected": "pass",
-   "answer": "Revenue was $4.2 million, up 12% from Q2 2026.",
-   "local_verdict": "pass",
-   "local_risk": 0.0,
-   "local_latency_ms": 0.286,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "adversarial",
-   "id": "clean-02",
-   "kind": "clean",
-   "expected": "pass",
-   "answer": "Priya Sharma is the fund manager and the largest holding is Northwind Energy.",
-   "local_verdict": "pass",
-   "local_risk": 0.0,
-   "local_latency_ms": 0.162,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "adversarial",
-   "id": "clean-03",
-   "kind": "clean_paraphrase",
-   "expected": "pass",
-   "answer": "In Q3 2026 the fund brought in 340 new clients.",
-   "local_verdict": "pass",
-   "local_risk": 0.0,
-   "local_latency_ms": 0.13,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "adversarial",
-   "id": "clean-04",
-   "kind": "clean",
-   "expected": "pass",
-   "answer": "Client support is based in Mumbai.",
-   "local_verdict": "pass",
-   "local_risk": 0.0,
-   "local_latency_ms": 0.117,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "adversarial",
-   "id": "num-01",
-   "kind": "unsupported_number",
-   "expected": "escalate",
-   "answer": "Revenue was $9.9 million, up 12% from Q2 2026.",
-   "local_verdict": "escalate",
-   "local_risk": 0.9,
-   "local_latency_ms": 0.113,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "adversarial",
-   "id": "num-02",
-   "kind": "unsupported_number",
-   "expected": "escalate",
-   "answer": "The fund onboarded 910 new clients in Q3 2026.",
-   "local_verdict": "escalate",
-   "local_risk": 0.9,
-   "local_latency_ms": 0.11,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "adversarial",
-   "id": "date-01",
-   "kind": "wrong_date",
-   "expected": "escalate",
-   "answer": "The fund launched on April 9, 2024.",
-   "local_verdict": "escalate",
-   "local_risk": 0.9,
-   "local_latency_ms": 0.107,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "adversarial",
-   "id": "date-02",
-   "kind": "wrong_date",
-   "expected": "escalate",
-   "answer": "The next review is scheduled for February 2, 2027.",
-   "local_verdict": "escalate",
-   "local_risk": 0.85,
-   "local_latency_ms": 0.13,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "adversarial",
-   "id": "name-01",
-   "kind": "invented_name",
-   "expected": "escalate",
-   "answer": "Rohan Mehta is the fund manager.",
-   "local_verdict": "escalate",
-   "local_risk": 0.85,
-   "local_latency_ms": 0.112,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
+ "disagreements": [
   {
    "source": "adversarial",
    "id": "name-02",
@@ -228,11 +99,19 @@
    "answer": "The fund's largest holding is BlueRiver Capital.",
    "local_verdict": "pass",
    "local_risk": 0.0,
-   "local_latency_ms": 0.112,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
+   "local_latency_ms": 0.395,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9980486968635764,
+   "reader_latency_ms": 937.033,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 48,
+     "text": "The fund's largest holding is BlueRiver Capital.",
+     "risk": 0.911452
+    }
+   ]
   },
   {
    "source": "adversarial",
@@ -242,25 +121,19 @@
    "answer": "Revenue was $4,200,000 in Q3 2026.",
    "local_verdict": "escalate",
    "local_risk": 0.9,
-   "local_latency_ms": 0.104,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "adversarial",
-   "id": "fmt-02",
-   "kind": "unit_conversion",
-   "expected": "pass",
-   "answer": "Assets under management are $0.89 billion.",
-   "local_verdict": "escalate",
-   "local_risk": 0.9,
-   "local_latency_ms": 0.1,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
+   "local_latency_ms": 0.217,
+   "reader_verdict": "pass",
+   "reader_risk": 0.5046485988331684,
+   "reader_latency_ms": 945.25,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 34,
+     "text": "Revenue was $4,200,000 in Q3 2026.",
+     "risk": 0.084842
+    }
+   ]
   },
   {
    "source": "adversarial",
@@ -270,11 +143,19 @@
    "answer": "The next review is scheduled for 15 January 2027.",
    "local_verdict": "escalate",
    "local_risk": 0.85,
-   "local_latency_ms": 0.103,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
+   "local_latency_ms": 0.199,
+   "reader_verdict": "pass",
+   "reader_risk": 0.17715545231115878,
+   "reader_latency_ms": 906.342,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 49,
+     "text": "The next review is scheduled for 15 January 2027.",
+     "risk": 0.093908
+    }
+   ]
   },
   {
    "source": "adversarial",
@@ -284,11 +165,19 @@
    "answer": "The fund launched on 3 March 2024.",
    "local_verdict": "escalate",
    "local_risk": 0.85,
-   "local_latency_ms": 0.101,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
+   "local_latency_ms": 0.374,
+   "reader_verdict": "pass",
+   "reader_risk": 0.5420448585038363,
+   "reader_latency_ms": 922.489,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 34,
+     "text": "The fund launched on 3 March 2024.",
+     "risk": 0.089648
+    }
+   ]
   },
   {
    "source": "adversarial",
@@ -298,39 +187,19 @@
    "answer": "Revenue was $4.2 million, down 12% from Q2 2026.",
    "local_verdict": "pass",
    "local_risk": 0.0,
-   "local_latency_ms": 0.117,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "adversarial",
-   "id": "sem-02",
-   "kind": "negation",
-   "expected": "escalate",
-   "answer": "Priya Sharma is not the fund manager.",
-   "local_verdict": "pass",
-   "local_risk": 0.0,
-   "local_latency_ms": 0.113,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "adversarial",
-   "id": "sem-03",
-   "kind": "negation",
-   "expected": "escalate",
-   "answer": "Client support is not based in Mumbai.",
-   "local_verdict": "pass",
-   "local_risk": 0.0,
-   "local_latency_ms": 0.12,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
+   "local_latency_ms": 0.428,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9991649367436488,
+   "reader_latency_ms": 884.363,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 48,
+     "text": "Revenue was $4.2 million, down 12% from Q2 2026.",
+     "risk": 0.861709
+    }
+   ]
   },
   {
    "source": "adversarial",
@@ -340,11 +209,19 @@
    "answer": "Rohan is the fund manager.",
    "local_verdict": "pass",
    "local_risk": 0.0,
-   "local_latency_ms": 0.107,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
+   "local_latency_ms": 0.149,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9987837456288182,
+   "reader_latency_ms": 886.166,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 26,
+     "text": "Rohan is the fund manager.",
+     "risk": 0.95892
+    }
+   ]
   },
   {
    "source": "adversarial",
@@ -354,11 +231,19 @@
    "answer": "The annual management fee is 1.5%, and revenue was $4.2 million, down 12% from Q2 2026.",
    "local_verdict": "pass",
    "local_risk": 0.0,
-   "local_latency_ms": 0.123,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
+   "local_latency_ms": 0.168,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9927257379427583,
+   "reader_latency_ms": 902.452,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 87,
+     "text": "The annual management fee is 1.5%, and revenue was $4.2 million, down 12% from Q2 2026.",
+     "risk": 0.77041
+    }
+   ]
   },
   {
    "source": "adversarial",
@@ -368,11 +253,19 @@
    "answer": "Northwind Energy onboarded 340 new clients in Q3 2026.",
    "local_verdict": "pass",
    "local_risk": 0.0,
-   "local_latency_ms": 0.116,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
+   "local_latency_ms": 0.429,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9975670368311447,
+   "reader_latency_ms": 1001.436,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 54,
+     "text": "Northwind Energy onboarded 340 new clients in Q3 2026.",
+     "risk": 0.791683
+    }
+   ]
   },
   {
    "source": "adversarial",
@@ -382,11 +275,19 @@
    "answer": "The office moved to a larger floor last month.",
    "local_verdict": "pass",
    "local_risk": 0.6,
-   "local_latency_ms": 0.115,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
+   "local_latency_ms": 0.467,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9995199901448304,
+   "reader_latency_ms": 936.372,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 46,
+     "text": "The office moved to a larger floor last month.",
+     "risk": 0.94042
+    }
+   ]
   },
   {
    "source": "adversarial",
@@ -396,11 +297,19 @@
    "answer": "The fund opened a new branch in Singapore last quarter.",
    "local_verdict": "pass",
    "local_risk": 0.0,
-   "local_latency_ms": 0.115,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
+   "local_latency_ms": 0.239,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9999732010724458,
+   "reader_latency_ms": 906.084,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 55,
+     "text": "The fund opened a new branch in Singapore last quarter.",
+     "risk": 0.98863
+    }
+   ]
   },
   {
    "source": "adversarial",
@@ -410,81 +319,19 @@
    "answer": "The fund won an industry award for customer service.",
    "local_verdict": "pass",
    "local_risk": 0.0,
-   "local_latency_ms": 0.111,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "adversarial",
-   "id": "nosrc-01",
-   "kind": "no_source",
-   "expected": "unscored",
-   "answer": "Revenue was $9.9 million.",
-   "local_verdict": "escalate",
-   "local_risk": 0.9,
-   "local_latency_ms": 0.017,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "adversarial",
-   "id": "nosrc-02",
-   "kind": "no_source",
-   "expected": "unscored",
-   "answer": "Revenue was $4.2 million.",
-   "local_verdict": "escalate",
-   "local_risk": 0.9,
-   "local_latency_ms": 0.015,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "adversarial",
-   "id": "clean-05",
-   "kind": "clean",
-   "expected": "pass",
-   "answer": "Assets under management are $890 million and the fee is 1.5%.",
-   "local_verdict": "pass",
-   "local_risk": 0.0,
-   "local_latency_ms": 0.126,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "adversarial",
-   "id": "clean-06",
-   "kind": "clean_paraphrase",
-   "expected": "pass",
-   "answer": "The fund started on March 3, 2024.",
-   "local_verdict": "pass",
-   "local_risk": 0.0,
-   "local_latency_ms": 0.121,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "adversarial",
-   "id": "num-03",
-   "kind": "unsupported_number",
-   "expected": "escalate",
-   "answer": "Assets under management are $120 million.",
-   "local_verdict": "escalate",
-   "local_risk": 0.9,
-   "local_latency_ms": 0.101,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
+   "local_latency_ms": 0.227,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9985864553713506,
+   "reader_latency_ms": 869.358,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 52,
+     "text": "The fund won an industry award for customer service.",
+     "risk": 0.968769
+    }
+   ]
   },
   {
    "source": "adversarial",
@@ -494,221 +341,19 @@
    "answer": "The next review is scheduled for January 15, 2028.",
    "local_verdict": "escalate",
    "local_risk": 0.9,
-   "local_latency_ms": 0.105,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "adversarial",
-   "id": "name-03",
-   "kind": "invented_name",
-   "expected": "escalate",
-   "answer": "Anita Desai is the fund manager.",
-   "local_verdict": "escalate",
-   "local_risk": 0.85,
-   "local_latency_ms": 0.099,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "benchmark",
-   "id": "clean-01",
-   "kind": "clean",
-   "expected": "pass",
-   "answer": "Revenue was $4.2 million, up 12% from Q2 2026. Priya Sharma is the fund manager.",
-   "local_verdict": "pass",
-   "local_risk": 0.0,
-   "local_latency_ms": 0.127,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "benchmark",
-   "id": "clean-02",
-   "kind": "clean",
-   "expected": "pass",
-   "answer": "The fund onboarded 340 new clients in Q3 2026. The annual management fee is 1.5%.",
-   "local_verdict": "pass",
-   "local_risk": 0.0,
-   "local_latency_ms": 0.154,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "benchmark",
-   "id": "clean-03",
-   "kind": "clean",
-   "expected": "pass",
-   "answer": "The fund's largest holding is Northwind Energy. Client support is based in Mumbai.",
-   "local_verdict": "pass",
-   "local_risk": 0.0,
-   "local_latency_ms": 0.146,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "benchmark",
-   "id": "clean-04",
-   "kind": "clean",
-   "expected": "pass",
-   "answer": "The next review is scheduled for January 15, 2027. The fund launched on March 3, 2024.",
-   "local_verdict": "pass",
-   "local_risk": 0.0,
-   "local_latency_ms": 0.13,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "benchmark",
-   "id": "clean-05",
-   "kind": "clean",
-   "expected": "pass",
-   "answer": "Revenue was $4.2 million in Q3 2026. The fund onboarded 340 new clients.",
-   "local_verdict": "pass",
-   "local_risk": 0.0,
-   "local_latency_ms": 0.122,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "benchmark",
-   "id": "clean-06",
-   "kind": "clean",
-   "expected": "pass",
-   "answer": "Priya Sharma is the fund manager. The annual management fee is 1.5%.",
-   "local_verdict": "pass",
-   "local_risk": 0.0,
-   "local_latency_ms": 0.117,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "benchmark",
-   "id": "clean-07",
-   "kind": "clean",
-   "expected": "pass",
-   "answer": "The fund's largest holding is Northwind Energy. Revenue was $4.2 million, up 12% from Q2 2026.",
-   "local_verdict": "pass",
-   "local_risk": 0.0,
-   "local_latency_ms": 0.129,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "benchmark",
-   "id": "clean-08",
-   "kind": "clean",
-   "expected": "pass",
-   "answer": "Client support is based in Mumbai. The next review is scheduled for January 15, 2027.",
-   "local_verdict": "pass",
-   "local_risk": 0.0,
-   "local_latency_ms": 0.135,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "benchmark",
-   "id": "clean-09",
-   "kind": "clean",
-   "expected": "pass",
-   "answer": "The fund launched on March 3, 2024. Priya Sharma is the fund manager.",
-   "local_verdict": "pass",
-   "local_risk": 0.0,
-   "local_latency_ms": 0.123,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "benchmark",
-   "id": "clean-10",
-   "kind": "clean",
-   "expected": "pass",
-   "answer": "The fund onboarded 340 new clients in Q3 2026. The fund's largest holding is Northwind Energy.",
-   "local_verdict": "pass",
-   "local_risk": 0.0,
-   "local_latency_ms": 0.124,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "benchmark",
-   "id": "clean-11",
-   "kind": "clean",
-   "expected": "pass",
-   "answer": "The annual management fee is 1.5%. Revenue was $4.2 million, up 12% from Q2 2026.",
-   "local_verdict": "pass",
-   "local_risk": 0.0,
-   "local_latency_ms": 0.124,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "benchmark",
-   "id": "clean-12",
-   "kind": "clean",
-   "expected": "pass",
-   "answer": "The next review is scheduled for January 15, 2027. Client support is based in Mumbai.",
-   "local_verdict": "pass",
-   "local_risk": 0.0,
-   "local_latency_ms": 0.123,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "benchmark",
-   "id": "num-01",
-   "kind": "unsupported_number",
-   "expected": "escalate",
-   "answer": "Revenue was $5.8 million, up 12% from Q2 2026. Priya Sharma is the fund manager.",
-   "local_verdict": "escalate",
-   "local_risk": 0.9,
-   "local_latency_ms": 0.116,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "benchmark",
-   "id": "num-02",
-   "kind": "unsupported_number",
-   "expected": "escalate",
-   "answer": "The fund onboarded 410 new clients in Q3 2026. The annual management fee is 1.5%.",
-   "local_verdict": "escalate",
-   "local_risk": 0.9,
-   "local_latency_ms": 0.168,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
+   "local_latency_ms": 0.377,
+   "reader_verdict": "pass",
+   "reader_risk": 0.37700064985339843,
+   "reader_latency_ms": 957.561,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 50,
+     "text": "The next review is scheduled for January 15, 2028.",
+     "risk": 0.159857
+    }
+   ]
   },
   {
    "source": "benchmark",
@@ -718,95 +363,25 @@
    "answer": "The annual management fee is 2.0%. Revenue was $4.2 million, up 12% from Q2 2026.",
    "local_verdict": "escalate",
    "local_risk": 0.9,
-   "local_latency_ms": 0.116,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "benchmark",
-   "id": "date-01",
-   "kind": "wrong_date",
-   "expected": "escalate",
-   "answer": "The next review is scheduled for February 20, 2027. Client support is based in Mumbai.",
-   "local_verdict": "escalate",
-   "local_risk": 0.9,
-   "local_latency_ms": 0.117,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "benchmark",
-   "id": "date-02",
-   "kind": "wrong_date",
-   "expected": "escalate",
-   "answer": "The fund launched on April 9, 2024. Priya Sharma is the fund manager.",
-   "local_verdict": "escalate",
-   "local_risk": 0.9,
-   "local_latency_ms": 0.112,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "benchmark",
-   "id": "date-03",
-   "kind": "wrong_date",
-   "expected": "escalate",
-   "answer": "Revenue was $4.2 million in Q4 2026. The fund onboarded 340 new clients.",
-   "local_verdict": "escalate",
-   "local_risk": 0.9,
-   "local_latency_ms": 0.111,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "benchmark",
-   "id": "name-01",
-   "kind": "invented_name",
-   "expected": "escalate",
-   "answer": "Rohan Mehta is the fund manager. Revenue was $4.2 million, up 12% from Q2 2026.",
-   "local_verdict": "escalate",
-   "local_risk": 0.85,
-   "local_latency_ms": 0.114,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "benchmark",
-   "id": "name-02",
-   "kind": "invented_name",
-   "expected": "escalate",
-   "answer": "The fund's largest holding is Bluepeak Capital. Client support is based in Mumbai.",
-   "local_verdict": "escalate",
-   "local_risk": 0.85,
-   "local_latency_ms": 0.11,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
-  },
-  {
-   "source": "benchmark",
-   "id": "name-03",
-   "kind": "invented_name",
-   "expected": "escalate",
-   "answer": "Aisha Khan is the fund manager. The annual management fee is 1.5%.",
-   "local_verdict": "escalate",
-   "local_risk": 0.85,
-   "local_latency_ms": 0.119,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
+   "local_latency_ms": 0.223,
+   "reader_verdict": "pass",
+   "reader_risk": 0.8437430120645031,
+   "reader_latency_ms": 903.877,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 35,
+     "text": "The annual management fee is 2.0%. ",
+     "risk": 0.909402
+    },
+    {
+     "start": 35,
+     "end": 81,
+     "text": "Revenue was $4.2 million, up 12% from Q2 2026.",
+     "risk": 0.036466
+    }
+   ]
   },
   {
    "source": "benchmark",
@@ -816,11 +391,25 @@
    "answer": "Revenue was $4.2 million, up 12% from Q2 2026. The office moved to a larger floor last month.",
    "local_verdict": "pass",
    "local_risk": 0.6,
-   "local_latency_ms": 0.164,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
+   "local_latency_ms": 0.41,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9889293668806689,
+   "reader_latency_ms": 841.193,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 47,
+     "text": "Revenue was $4.2 million, up 12% from Q2 2026. ",
+     "risk": 0.009384
+    },
+    {
+     "start": 47,
+     "end": 93,
+     "text": "The office moved to a larger floor last month.",
+     "risk": 0.999709
+    }
+   ]
   },
   {
    "source": "benchmark",
@@ -830,11 +419,25 @@
    "answer": "Priya Sharma is the fund manager. Staff attended an external training workshop in spring.",
    "local_verdict": "pass",
    "local_risk": 0.6,
-   "local_latency_ms": 0.123,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
+   "local_latency_ms": 0.416,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9768219029141304,
+   "reader_latency_ms": 886.83,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 34,
+     "text": "Priya Sharma is the fund manager. ",
+     "risk": 0.063825
+    },
+    {
+     "start": 34,
+     "end": 89,
+     "text": "Staff attended an external training workshop in spring.",
+     "risk": 0.979987
+    }
+   ]
   },
   {
    "source": "benchmark",
@@ -844,11 +447,1359 @@
    "answer": "The annual management fee is 1.5%. A separate committee approved the updated internal handbook.",
    "local_verdict": "pass",
    "local_risk": 0.6,
-   "local_latency_ms": 0.123,
-   "reader_verdict": "not_run",
-   "reader_risk": null,
-   "reader_latency_ms": null,
-   "reader_unscored_reason": null
+   "local_latency_ms": 0.194,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9939242521534979,
+   "reader_latency_ms": 843.78,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 35,
+     "text": "The annual management fee is 1.5%. ",
+     "risk": 0.31335
+    },
+    {
+     "start": 35,
+     "end": 95,
+     "text": "A separate committee approved the updated internal handbook.",
+     "risk": 0.941557
+    }
+   ]
+  }
+ ],
+ "rows": [
+  {
+   "source": "adversarial",
+   "id": "clean-01",
+   "kind": "clean",
+   "expected": "pass",
+   "answer": "Revenue was $4.2 million, up 12% from Q2 2026.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.1,
+   "reader_verdict": "pass",
+   "reader_risk": 0.21125744959286338,
+   "reader_latency_ms": 2106.798,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 46,
+     "text": "Revenue was $4.2 million, up 12% from Q2 2026.",
+     "risk": 0.016062
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "clean-02",
+   "kind": "clean",
+   "expected": "pass",
+   "answer": "Priya Sharma is the fund manager and the largest holding is Northwind Energy.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.477,
+   "reader_verdict": "pass",
+   "reader_risk": 0.2504132684056147,
+   "reader_latency_ms": 941.392,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 77,
+     "text": "Priya Sharma is the fund manager and the largest holding is Northwind Energy.",
+     "risk": 0.158193
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "clean-03",
+   "kind": "clean_paraphrase",
+   "expected": "pass",
+   "answer": "In Q3 2026 the fund brought in 340 new clients.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.414,
+   "reader_verdict": "pass",
+   "reader_risk": 0.6582706561474058,
+   "reader_latency_ms": 926.944,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 47,
+     "text": "In Q3 2026 the fund brought in 340 new clients.",
+     "risk": 0.089533
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "clean-04",
+   "kind": "clean",
+   "expected": "pass",
+   "answer": "Client support is based in Mumbai.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.101,
+   "reader_verdict": "pass",
+   "reader_risk": 0.509087293560763,
+   "reader_latency_ms": 912.81,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 34,
+     "text": "Client support is based in Mumbai.",
+     "risk": 0.058783
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "num-01",
+   "kind": "unsupported_number",
+   "expected": "escalate",
+   "answer": "Revenue was $9.9 million, up 12% from Q2 2026.",
+   "local_verdict": "escalate",
+   "local_risk": 0.9,
+   "local_latency_ms": 0.386,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9995558250132858,
+   "reader_latency_ms": 889.068,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 46,
+     "text": "Revenue was $9.9 million, up 12% from Q2 2026.",
+     "risk": 0.93239
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "num-02",
+   "kind": "unsupported_number",
+   "expected": "escalate",
+   "answer": "The fund onboarded 910 new clients in Q3 2026.",
+   "local_verdict": "escalate",
+   "local_risk": 0.9,
+   "local_latency_ms": 0.4,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9996083209159623,
+   "reader_latency_ms": 955.031,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 46,
+     "text": "The fund onboarded 910 new clients in Q3 2026.",
+     "risk": 0.909045
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "date-01",
+   "kind": "wrong_date",
+   "expected": "escalate",
+   "answer": "The fund launched on April 9, 2024.",
+   "local_verdict": "escalate",
+   "local_risk": 0.9,
+   "local_latency_ms": 0.376,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9999466005562121,
+   "reader_latency_ms": 911.067,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 35,
+     "text": "The fund launched on April 9, 2024.",
+     "risk": 0.991759
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "date-02",
+   "kind": "wrong_date",
+   "expected": "escalate",
+   "answer": "The next review is scheduled for February 2, 2027.",
+   "local_verdict": "escalate",
+   "local_risk": 0.85,
+   "local_latency_ms": 0.371,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9948952697911362,
+   "reader_latency_ms": 970.415,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 50,
+     "text": "The next review is scheduled for February 2, 2027.",
+     "risk": 0.88926
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "name-01",
+   "kind": "invented_name",
+   "expected": "escalate",
+   "answer": "Rohan Mehta is the fund manager.",
+   "local_verdict": "escalate",
+   "local_risk": 0.85,
+   "local_latency_ms": 0.18,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9996091303324182,
+   "reader_latency_ms": 846.466,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 32,
+     "text": "Rohan Mehta is the fund manager.",
+     "risk": 0.975855
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "name-02",
+   "kind": "invented_name",
+   "expected": "escalate",
+   "answer": "The fund's largest holding is BlueRiver Capital.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.395,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9980486968635764,
+   "reader_latency_ms": 937.033,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 48,
+     "text": "The fund's largest holding is BlueRiver Capital.",
+     "risk": 0.911452
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "fmt-01",
+   "kind": "unit_conversion",
+   "expected": "pass",
+   "answer": "Revenue was $4,200,000 in Q3 2026.",
+   "local_verdict": "escalate",
+   "local_risk": 0.9,
+   "local_latency_ms": 0.217,
+   "reader_verdict": "pass",
+   "reader_risk": 0.5046485988331684,
+   "reader_latency_ms": 945.25,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 34,
+     "text": "Revenue was $4,200,000 in Q3 2026.",
+     "risk": 0.084842
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "fmt-02",
+   "kind": "unit_conversion",
+   "expected": "pass",
+   "answer": "Assets under management are $0.89 billion.",
+   "local_verdict": "escalate",
+   "local_risk": 0.9,
+   "local_latency_ms": 0.371,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9491274348932601,
+   "reader_latency_ms": 920.992,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 42,
+     "text": "Assets under management are $0.89 billion.",
+     "risk": 0.528576
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "fmt-03",
+   "kind": "date_format",
+   "expected": "pass",
+   "answer": "The next review is scheduled for 15 January 2027.",
+   "local_verdict": "escalate",
+   "local_risk": 0.85,
+   "local_latency_ms": 0.199,
+   "reader_verdict": "pass",
+   "reader_risk": 0.17715545231115878,
+   "reader_latency_ms": 906.342,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 49,
+     "text": "The next review is scheduled for 15 January 2027.",
+     "risk": 0.093908
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "fmt-04",
+   "kind": "date_format",
+   "expected": "pass",
+   "answer": "The fund launched on 3 March 2024.",
+   "local_verdict": "escalate",
+   "local_risk": 0.85,
+   "local_latency_ms": 0.374,
+   "reader_verdict": "pass",
+   "reader_risk": 0.5420448585038363,
+   "reader_latency_ms": 922.489,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 34,
+     "text": "The fund launched on 3 March 2024.",
+     "risk": 0.089648
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "sem-01",
+   "kind": "same_token_contradiction",
+   "expected": "escalate",
+   "answer": "Revenue was $4.2 million, down 12% from Q2 2026.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.428,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9991649367436488,
+   "reader_latency_ms": 884.363,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 48,
+     "text": "Revenue was $4.2 million, down 12% from Q2 2026.",
+     "risk": 0.861709
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "sem-02",
+   "kind": "negation",
+   "expected": "escalate",
+   "answer": "Priya Sharma is not the fund manager.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.38,
+   "reader_verdict": "pass",
+   "reader_risk": 0.8120947709458898,
+   "reader_latency_ms": 867.055,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 37,
+     "text": "Priya Sharma is not the fund manager.",
+     "risk": 0.321644
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "sem-03",
+   "kind": "negation",
+   "expected": "escalate",
+   "answer": "Client support is not based in Mumbai.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.4,
+   "reader_verdict": "pass",
+   "reader_risk": 0.7312109280814293,
+   "reader_latency_ms": 888.624,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 38,
+     "text": "Client support is not based in Mumbai.",
+     "risk": 0.212779
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "sem-04",
+   "kind": "single_name",
+   "expected": "escalate",
+   "answer": "Rohan is the fund manager.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.149,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9987837456288182,
+   "reader_latency_ms": 886.166,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 26,
+     "text": "Rohan is the fund manager.",
+     "risk": 0.95892
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "sem-05",
+   "kind": "same_token_contradiction",
+   "expected": "escalate",
+   "answer": "The annual management fee is 1.5%, and revenue was $4.2 million, down 12% from Q2 2026.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.168,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9927257379427583,
+   "reader_latency_ms": 902.452,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 87,
+     "text": "The annual management fee is 1.5%, and revenue was $4.2 million, down 12% from Q2 2026.",
+     "risk": 0.77041
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "sem-06",
+   "kind": "wrong_combination",
+   "expected": "escalate",
+   "answer": "Northwind Energy onboarded 340 new clients in Q3 2026.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.429,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9975670368311447,
+   "reader_latency_ms": 1001.436,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 54,
+     "text": "Northwind Energy onboarded 340 new clients in Q3 2026.",
+     "risk": 0.791683
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "claim-01",
+   "kind": "unsupported_claim",
+   "expected": "escalate",
+   "answer": "The office moved to a larger floor last month.",
+   "local_verdict": "pass",
+   "local_risk": 0.6,
+   "local_latency_ms": 0.467,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9995199901448304,
+   "reader_latency_ms": 936.372,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 46,
+     "text": "The office moved to a larger floor last month.",
+     "risk": 0.94042
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "claim-02",
+   "kind": "unsupported_claim",
+   "expected": "escalate",
+   "answer": "The fund opened a new branch in Singapore last quarter.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.239,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9999732010724458,
+   "reader_latency_ms": 906.084,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 55,
+     "text": "The fund opened a new branch in Singapore last quarter.",
+     "risk": 0.98863
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "claim-03",
+   "kind": "unsupported_claim",
+   "expected": "escalate",
+   "answer": "The fund won an industry award for customer service.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.227,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9985864553713506,
+   "reader_latency_ms": 869.358,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 52,
+     "text": "The fund won an industry award for customer service.",
+     "risk": 0.968769
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "nosrc-01",
+   "kind": "no_source",
+   "expected": "unscored",
+   "answer": "Revenue was $9.9 million.",
+   "local_verdict": "escalate",
+   "local_risk": 0.9,
+   "local_latency_ms": 0.088,
+   "reader_verdict": "pass",
+   "reader_risk": 0.209213,
+   "reader_latency_ms": 860.985,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 25,
+     "text": "Revenue was $9.9 million.",
+     "risk": 0.882628
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "nosrc-02",
+   "kind": "no_source",
+   "expected": "unscored",
+   "answer": "Revenue was $4.2 million.",
+   "local_verdict": "escalate",
+   "local_risk": 0.9,
+   "local_latency_ms": 0.108,
+   "reader_verdict": "pass",
+   "reader_risk": 0.238424,
+   "reader_latency_ms": 925.866,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 25,
+     "text": "Revenue was $4.2 million.",
+     "risk": 0.868835
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "clean-05",
+   "kind": "clean",
+   "expected": "pass",
+   "answer": "Assets under management are $890 million and the fee is 1.5%.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.314,
+   "reader_verdict": "pass",
+   "reader_risk": 0.814257699665015,
+   "reader_latency_ms": 853.268,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 61,
+     "text": "Assets under management are $890 million and the fee is 1.5%.",
+     "risk": 0.300736
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "clean-06",
+   "kind": "clean_paraphrase",
+   "expected": "pass",
+   "answer": "The fund started on March 3, 2024.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.408,
+   "reader_verdict": "pass",
+   "reader_risk": 0.7307776777290094,
+   "reader_latency_ms": 922.592,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 34,
+     "text": "The fund started on March 3, 2024.",
+     "risk": 0.109375
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "num-03",
+   "kind": "unsupported_number",
+   "expected": "escalate",
+   "answer": "Assets under management are $120 million.",
+   "local_verdict": "escalate",
+   "local_risk": 0.9,
+   "local_latency_ms": 0.203,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9987808113824838,
+   "reader_latency_ms": 854.548,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 41,
+     "text": "Assets under management are $120 million.",
+     "risk": 0.918045
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "date-03",
+   "kind": "wrong_date",
+   "expected": "escalate",
+   "answer": "The next review is scheduled for January 15, 2028.",
+   "local_verdict": "escalate",
+   "local_risk": 0.9,
+   "local_latency_ms": 0.377,
+   "reader_verdict": "pass",
+   "reader_risk": 0.37700064985339843,
+   "reader_latency_ms": 957.561,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 50,
+     "text": "The next review is scheduled for January 15, 2028.",
+     "risk": 0.159857
+    }
+   ]
+  },
+  {
+   "source": "adversarial",
+   "id": "name-03",
+   "kind": "invented_name",
+   "expected": "escalate",
+   "answer": "Anita Desai is the fund manager.",
+   "local_verdict": "escalate",
+   "local_risk": 0.85,
+   "local_latency_ms": 0.355,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9999434813992997,
+   "reader_latency_ms": 906.831,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 32,
+     "text": "Anita Desai is the fund manager.",
+     "risk": 0.98825
+    }
+   ]
+  },
+  {
+   "source": "benchmark",
+   "id": "clean-01",
+   "kind": "clean",
+   "expected": "pass",
+   "answer": "Revenue was $4.2 million, up 12% from Q2 2026. Priya Sharma is the fund manager.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.398,
+   "reader_verdict": "pass",
+   "reader_risk": 0.06404888457992092,
+   "reader_latency_ms": 872.366,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 47,
+     "text": "Revenue was $4.2 million, up 12% from Q2 2026. ",
+     "risk": 0.009384
+    },
+    {
+     "start": 47,
+     "end": 80,
+     "text": "Priya Sharma is the fund manager.",
+     "risk": 0.005859
+    }
+   ]
+  },
+  {
+   "source": "benchmark",
+   "id": "clean-02",
+   "kind": "clean",
+   "expected": "pass",
+   "answer": "The fund onboarded 340 new clients in Q3 2026. The annual management fee is 1.5%.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.444,
+   "reader_verdict": "pass",
+   "reader_risk": 0.6426291712222117,
+   "reader_latency_ms": 1003.339,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 47,
+     "text": "The fund onboarded 340 new clients in Q3 2026. ",
+     "risk": 0.056834
+    },
+    {
+     "start": 47,
+     "end": 81,
+     "text": "The annual management fee is 1.5%.",
+     "risk": 0.105952
+    }
+   ]
+  },
+  {
+   "source": "benchmark",
+   "id": "clean-03",
+   "kind": "clean",
+   "expected": "pass",
+   "answer": "The fund's largest holding is Northwind Energy. Client support is based in Mumbai.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.45,
+   "reader_verdict": "pass",
+   "reader_risk": 0.44711294607257007,
+   "reader_latency_ms": 1019.702,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 48,
+     "text": "The fund's largest holding is Northwind Energy. ",
+     "risk": 0.149448
+    },
+    {
+     "start": 48,
+     "end": 82,
+     "text": "Client support is based in Mumbai.",
+     "risk": 0.033964
+    }
+   ]
+  },
+  {
+   "source": "benchmark",
+   "id": "clean-04",
+   "kind": "clean",
+   "expected": "pass",
+   "answer": "The next review is scheduled for January 15, 2027. The fund launched on March 3, 2024.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.459,
+   "reader_verdict": "pass",
+   "reader_risk": 0.35783184506918936,
+   "reader_latency_ms": 914.737,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 51,
+     "text": "The next review is scheduled for January 15, 2027. ",
+     "risk": 0.069308
+    },
+    {
+     "start": 51,
+     "end": 86,
+     "text": "The fund launched on March 3, 2024.",
+     "risk": 0.090956
+    }
+   ]
+  },
+  {
+   "source": "benchmark",
+   "id": "clean-05",
+   "kind": "clean",
+   "expected": "pass",
+   "answer": "Revenue was $4.2 million in Q3 2026. The fund onboarded 340 new clients.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.218,
+   "reader_verdict": "pass",
+   "reader_risk": 0.12562325831830076,
+   "reader_latency_ms": 896.241,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 37,
+     "text": "Revenue was $4.2 million in Q3 2026. ",
+     "risk": 0.011526
+    },
+    {
+     "start": 37,
+     "end": 72,
+     "text": "The fund onboarded 340 new clients.",
+     "risk": 0.006797
+    }
+   ]
+  },
+  {
+   "source": "benchmark",
+   "id": "clean-06",
+   "kind": "clean",
+   "expected": "pass",
+   "answer": "Priya Sharma is the fund manager. The annual management fee is 1.5%.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.242,
+   "reader_verdict": "pass",
+   "reader_risk": 0.18258412054085885,
+   "reader_latency_ms": 932.517,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 34,
+     "text": "Priya Sharma is the fund manager. ",
+     "risk": 0.063825
+    },
+    {
+     "start": 34,
+     "end": 68,
+     "text": "The annual management fee is 1.5%.",
+     "risk": 0.045799
+    }
+   ]
+  },
+  {
+   "source": "benchmark",
+   "id": "clean-07",
+   "kind": "clean",
+   "expected": "pass",
+   "answer": "The fund's largest holding is Northwind Energy. Revenue was $4.2 million, up 12% from Q2 2026.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.3,
+   "reader_verdict": "pass",
+   "reader_risk": 0.3187401586298064,
+   "reader_latency_ms": 886.478,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 48,
+     "text": "The fund's largest holding is Northwind Energy. ",
+     "risk": 0.150242
+    },
+    {
+     "start": 48,
+     "end": 94,
+     "text": "Revenue was $4.2 million, up 12% from Q2 2026.",
+     "risk": 0.01026
+    }
+   ]
+  },
+  {
+   "source": "benchmark",
+   "id": "clean-08",
+   "kind": "clean",
+   "expected": "pass",
+   "answer": "Client support is based in Mumbai. The next review is scheduled for January 15, 2027.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.237,
+   "reader_verdict": "pass",
+   "reader_risk": 0.43227564696533294,
+   "reader_latency_ms": 848.973,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 35,
+     "text": "Client support is based in Mumbai. ",
+     "risk": 0.070765
+    },
+    {
+     "start": 35,
+     "end": 85,
+     "text": "The next review is scheduled for January 15, 2027.",
+     "risk": 0.056013
+    }
+   ]
+  },
+  {
+   "source": "benchmark",
+   "id": "clean-09",
+   "kind": "clean",
+   "expected": "pass",
+   "answer": "The fund launched on March 3, 2024. Priya Sharma is the fund manager.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.217,
+   "reader_verdict": "pass",
+   "reader_risk": 0.18462072423728754,
+   "reader_latency_ms": 863.793,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 36,
+     "text": "The fund launched on March 3, 2024. ",
+     "risk": 0.114207
+    },
+    {
+     "start": 36,
+     "end": 69,
+     "text": "Priya Sharma is the fund manager.",
+     "risk": 0.007741
+    }
+   ]
+  },
+  {
+   "source": "benchmark",
+   "id": "clean-10",
+   "kind": "clean",
+   "expected": "pass",
+   "answer": "The fund onboarded 340 new clients in Q3 2026. The fund's largest holding is Northwind Energy.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.213,
+   "reader_verdict": "pass",
+   "reader_risk": 0.5297055017864047,
+   "reader_latency_ms": 843.297,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 47,
+     "text": "The fund onboarded 340 new clients in Q3 2026. ",
+     "risk": 0.056834
+    },
+    {
+     "start": 47,
+     "end": 94,
+     "text": "The fund's largest holding is Northwind Energy.",
+     "risk": 0.080624
+    }
+   ]
+  },
+  {
+   "source": "benchmark",
+   "id": "clean-11",
+   "kind": "clean",
+   "expected": "pass",
+   "answer": "The annual management fee is 1.5%. Revenue was $4.2 million, up 12% from Q2 2026.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.223,
+   "reader_verdict": "pass",
+   "reader_risk": 0.3022053590308742,
+   "reader_latency_ms": 868.482,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 35,
+     "text": "The annual management fee is 1.5%. ",
+     "risk": 0.314409
+    },
+    {
+     "start": 35,
+     "end": 81,
+     "text": "Revenue was $4.2 million, up 12% from Q2 2026.",
+     "risk": 0.009068
+    }
+   ]
+  },
+  {
+   "source": "benchmark",
+   "id": "clean-12",
+   "kind": "clean",
+   "expected": "pass",
+   "answer": "The next review is scheduled for January 15, 2027. Client support is based in Mumbai.",
+   "local_verdict": "pass",
+   "local_risk": 0.0,
+   "local_latency_ms": 0.208,
+   "reader_verdict": "pass",
+   "reader_risk": 0.34314581070303796,
+   "reader_latency_ms": 934.514,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 51,
+     "text": "The next review is scheduled for January 15, 2027. ",
+     "risk": 0.069308
+    },
+    {
+     "start": 51,
+     "end": 85,
+     "text": "Client support is based in Mumbai.",
+     "risk": 0.039859
+    }
+   ]
+  },
+  {
+   "source": "benchmark",
+   "id": "num-01",
+   "kind": "unsupported_number",
+   "expected": "escalate",
+   "answer": "Revenue was $5.8 million, up 12% from Q2 2026. Priya Sharma is the fund manager.",
+   "local_verdict": "escalate",
+   "local_risk": 0.9,
+   "local_latency_ms": 0.348,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9820678205217425,
+   "reader_latency_ms": 999.933,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 47,
+     "text": "Revenue was $5.8 million, up 12% from Q2 2026. ",
+     "risk": 0.87417
+    },
+    {
+     "start": 47,
+     "end": 80,
+     "text": "Priya Sharma is the fund manager.",
+     "risk": 0.007927
+    }
+   ]
+  },
+  {
+   "source": "benchmark",
+   "id": "num-02",
+   "kind": "unsupported_number",
+   "expected": "escalate",
+   "answer": "The fund onboarded 410 new clients in Q3 2026. The annual management fee is 1.5%.",
+   "local_verdict": "escalate",
+   "local_risk": 0.9,
+   "local_latency_ms": 0.157,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9961403732584204,
+   "reader_latency_ms": 936.321,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 47,
+     "text": "The fund onboarded 410 new clients in Q3 2026. ",
+     "risk": 0.861165
+    },
+    {
+     "start": 47,
+     "end": 81,
+     "text": "The annual management fee is 1.5%.",
+     "risk": 0.19061
+    }
+   ]
+  },
+  {
+   "source": "benchmark",
+   "id": "num-03",
+   "kind": "unsupported_number",
+   "expected": "escalate",
+   "answer": "The annual management fee is 2.0%. Revenue was $4.2 million, up 12% from Q2 2026.",
+   "local_verdict": "escalate",
+   "local_risk": 0.9,
+   "local_latency_ms": 0.223,
+   "reader_verdict": "pass",
+   "reader_risk": 0.8437430120645031,
+   "reader_latency_ms": 903.877,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 35,
+     "text": "The annual management fee is 2.0%. ",
+     "risk": 0.909402
+    },
+    {
+     "start": 35,
+     "end": 81,
+     "text": "Revenue was $4.2 million, up 12% from Q2 2026.",
+     "risk": 0.036466
+    }
+   ]
+  },
+  {
+   "source": "benchmark",
+   "id": "date-01",
+   "kind": "wrong_date",
+   "expected": "escalate",
+   "answer": "The next review is scheduled for February 20, 2027. Client support is based in Mumbai.",
+   "local_verdict": "escalate",
+   "local_risk": 0.9,
+   "local_latency_ms": 0.202,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9944621654491165,
+   "reader_latency_ms": 886.167,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 52,
+     "text": "The next review is scheduled for February 20, 2027. ",
+     "risk": 0.912994
+    },
+    {
+     "start": 52,
+     "end": 86,
+     "text": "Client support is based in Mumbai.",
+     "risk": 0.218791
+    }
+   ]
+  },
+  {
+   "source": "benchmark",
+   "id": "date-02",
+   "kind": "wrong_date",
+   "expected": "escalate",
+   "answer": "The fund launched on April 9, 2024. Priya Sharma is the fund manager.",
+   "local_verdict": "escalate",
+   "local_risk": 0.9,
+   "local_latency_ms": 0.363,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9974976015906787,
+   "reader_latency_ms": 908.403,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 36,
+     "text": "The fund launched on April 9, 2024. ",
+     "risk": 0.997816
+    },
+    {
+     "start": 36,
+     "end": 69,
+     "text": "Priya Sharma is the fund manager.",
+     "risk": 0.021759
+    }
+   ]
+  },
+  {
+   "source": "benchmark",
+   "id": "date-03",
+   "kind": "wrong_date",
+   "expected": "escalate",
+   "answer": "Revenue was $4.2 million in Q4 2026. The fund onboarded 340 new clients.",
+   "local_verdict": "escalate",
+   "local_risk": 0.9,
+   "local_latency_ms": 0.217,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9689864192547223,
+   "reader_latency_ms": 970.695,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 37,
+     "text": "Revenue was $4.2 million in Q4 2026. ",
+     "risk": 0.752425
+    },
+    {
+     "start": 37,
+     "end": 72,
+     "text": "The fund onboarded 340 new clients.",
+     "risk": 0.033889
+    }
+   ]
+  },
+  {
+   "source": "benchmark",
+   "id": "name-01",
+   "kind": "invented_name",
+   "expected": "escalate",
+   "answer": "Rohan Mehta is the fund manager. Revenue was $4.2 million, up 12% from Q2 2026.",
+   "local_verdict": "escalate",
+   "local_risk": 0.85,
+   "local_latency_ms": 0.374,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9716025515838984,
+   "reader_latency_ms": 852.863,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 33,
+     "text": "Rohan Mehta is the fund manager. ",
+     "risk": 0.977429
+    },
+    {
+     "start": 33,
+     "end": 79,
+     "text": "Revenue was $4.2 million, up 12% from Q2 2026.",
+     "risk": 0.0895
+    }
+   ]
+  },
+  {
+   "source": "benchmark",
+   "id": "name-02",
+   "kind": "invented_name",
+   "expected": "escalate",
+   "answer": "The fund's largest holding is Bluepeak Capital. Client support is based in Mumbai.",
+   "local_verdict": "escalate",
+   "local_risk": 0.85,
+   "local_latency_ms": 0.547,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9955876151823748,
+   "reader_latency_ms": 857.814,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 48,
+     "text": "The fund's largest holding is Bluepeak Capital. ",
+     "risk": 0.923678
+    },
+    {
+     "start": 48,
+     "end": 82,
+     "text": "Client support is based in Mumbai.",
+     "risk": 0.345634
+    }
+   ]
+  },
+  {
+   "source": "benchmark",
+   "id": "name-03",
+   "kind": "invented_name",
+   "expected": "escalate",
+   "answer": "Aisha Khan is the fund manager. The annual management fee is 1.5%.",
+   "local_verdict": "escalate",
+   "local_risk": 0.85,
+   "local_latency_ms": 0.406,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9953054729238959,
+   "reader_latency_ms": 863.315,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 32,
+     "text": "Aisha Khan is the fund manager. ",
+     "risk": 0.987944
+    },
+    {
+     "start": 32,
+     "end": 66,
+     "text": "The annual management fee is 1.5%.",
+     "risk": 0.445261
+    }
+   ]
+  },
+  {
+   "source": "benchmark",
+   "id": "claim-01",
+   "kind": "unsupported_claim",
+   "expected": "escalate",
+   "answer": "Revenue was $4.2 million, up 12% from Q2 2026. The office moved to a larger floor last month.",
+   "local_verdict": "pass",
+   "local_risk": 0.6,
+   "local_latency_ms": 0.41,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9889293668806689,
+   "reader_latency_ms": 841.193,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 47,
+     "text": "Revenue was $4.2 million, up 12% from Q2 2026. ",
+     "risk": 0.009384
+    },
+    {
+     "start": 47,
+     "end": 93,
+     "text": "The office moved to a larger floor last month.",
+     "risk": 0.999709
+    }
+   ]
+  },
+  {
+   "source": "benchmark",
+   "id": "claim-02",
+   "kind": "unsupported_claim",
+   "expected": "escalate",
+   "answer": "Priya Sharma is the fund manager. Staff attended an external training workshop in spring.",
+   "local_verdict": "pass",
+   "local_risk": 0.6,
+   "local_latency_ms": 0.416,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9768219029141304,
+   "reader_latency_ms": 886.83,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 34,
+     "text": "Priya Sharma is the fund manager. ",
+     "risk": 0.063825
+    },
+    {
+     "start": 34,
+     "end": 89,
+     "text": "Staff attended an external training workshop in spring.",
+     "risk": 0.979987
+    }
+   ]
+  },
+  {
+   "source": "benchmark",
+   "id": "claim-03",
+   "kind": "unsupported_claim",
+   "expected": "escalate",
+   "answer": "The annual management fee is 1.5%. A separate committee approved the updated internal handbook.",
+   "local_verdict": "pass",
+   "local_risk": 0.6,
+   "local_latency_ms": 0.194,
+   "reader_verdict": "escalate",
+   "reader_risk": 0.9939242521534979,
+   "reader_latency_ms": 843.78,
+   "reader_unscored_reason": null,
+   "reader_sentences": [
+    {
+     "start": 0,
+     "end": 35,
+     "text": "The annual management fee is 1.5%. ",
+     "risk": 0.31335
+    },
+    {
+     "start": 35,
+     "end": 95,
+     "text": "A separate committee approved the updated internal handbook.",
+     "risk": 0.941557
+    }
+   ]
   }
  ]
 }
