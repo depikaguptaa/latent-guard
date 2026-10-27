@@ -178,15 +178,32 @@ class TestGuard(unittest.TestCase):
         self.assertEqual(result["cut_at"], 0)
         self.assertEqual(result["delivered_answer"], "")
 
+    def test_stream_fail_closed_with_no_reader_holds_everything(self):
+        # No reader and fail-closed: the action says held, so nothing
+        # may be delivered. (Fail-open delivers the full answer.)
+        held = guard_stream("Summarize.", ["Revenue was $9.9 million."],
+                            CTX, reader=None, fail_closed=True)
+        self.assertEqual(held["action"], "unscored_held")
+        self.assertEqual(held["delivered_answer"], "")
+        open_result = guard_stream("Summarize.", ["Revenue was $9.9 million."],
+                                   CTX, reader=None, fail_closed=False)
+        self.assertEqual(open_result["action"], "unscored_delivered")
+        self.assertEqual(open_result["delivered_answer"], "Revenue was $9.9 million.")
+
 
 class TestHashQueue(unittest.TestCase):
     def test_hash_mode_stores_no_text(self):
         with tempfile.TemporaryDirectory() as d:
-            queue = ReviewQueue(os.path.join(d, "q.json"), store_text=False)
+            path = os.path.join(d, "q.json")
+            queue = ReviewQueue(path, store_text=False)
             result = score_answer("Summarize.", "Revenue was $9.9 million.", CTX)
-            entry = queue.add(result, "Summarize.", "Revenue was $9.9 million.")
+            entry = queue.add(result, "Summarize the secret report.", "Revenue was $9.9 million.")
             self.assertNotIn("9.9", entry["answer"])
             self.assertEqual(len(entry["answer_sha256"]), 64)
+            blob = open(path, encoding="utf-8").read()
+            self.assertNotIn("9.9", blob)
+            self.assertNotIn("secret report", blob)
+            self.assertNotIn("Revenue was", blob)
             queue.review(result["request_id"], "confirmed")
             self.assertEqual(queue.labeled_examples()[0]["label"], "hallucinated")
 

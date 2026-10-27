@@ -142,6 +142,29 @@ class TestServer(unittest.TestCase):
             self.assertEqual(ctx.exception.code, 400)
             srv.shutdown()
 
+    def test_non_string_score_fields_return_400(self):
+        import threading
+        from http.server import ThreadingHTTPServer
+
+        import latent_guard.server as server_mod
+        from latent_guard.server import Handler
+
+        with tempfile.TemporaryDirectory() as d:
+            server_mod.QUEUE = ReviewQueue(os.path.join(d, "q.json"))
+            srv = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+            threading.Thread(target=srv.serve_forever, daemon=True).start()
+            base = f"http://127.0.0.1:{srv.server_address[1]}"
+            for payload in ({"answer": 123, "context": CTX},
+                            {"answer": "Revenue was $9.9 million.", "context": [1, 2]},
+                            {"answer": "Revenue was $9.9 million.", "context": CTX, "prompt": 7}):
+                req = urllib.request.Request(base + "/score", method="POST",
+                                             data=json.dumps(payload).encode(),
+                                             headers={"Content-Type": "application/json"})
+                with self.assertRaises(urllib.error.HTTPError) as ctx:
+                    urllib.request.urlopen(req)
+                self.assertEqual(ctx.exception.code, 400)
+            srv.shutdown()
+
 
 if __name__ == "__main__":
     unittest.main()

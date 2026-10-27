@@ -18,6 +18,33 @@ def _sha(text: str) -> str:
     return hashlib.sha256(text.encode()).hexdigest()
 
 
+def _scrub_sentences(sentences) -> list:
+    """Hash-only form of sentence rows: no answer text survives.
+
+    In hash mode the prompt and answer fields are hashes, but the
+    sentence rows carry the answer's own text and the reasons carry
+    its numbers and names. Storing them raw would leak the answer
+    through the queue file, so only offsets, risk, and failure kinds
+    are kept, with the sentence text itself hashed.
+    """
+    out = []
+    for s in sentences or []:
+        if not isinstance(s, dict):
+            continue
+        out.append({
+            "start": s.get("start"),
+            "end": s.get("end"),
+            "risk": s.get("risk"),
+            "text_sha256": _sha(s.get("text") or ""),
+            "reasons": [
+                {"kind": r.get("kind")}
+                for r in (s.get("reasons") or [])
+                if isinstance(r, dict) and r.get("kind")
+            ],
+        })
+    return out
+
+
 class ReviewQueue:
     def __init__(self, path: str, store_text: bool = True):
         """store_text=False keeps hashes of prompt/answer, never the text.
@@ -54,7 +81,7 @@ class ReviewQueue:
             "answer_sha256": _sha(answer),
             "verdict": result["verdict"],
             "risk": result["risk"],
-            "sentences": result["sentences"],
+            "sentences": result["sentences"] if self.store_text else _scrub_sentences(result["sentences"]),
             "status": "pending_review" if result["flagged"] else "delivered",
             "decision": None,
             "note": None,

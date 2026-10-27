@@ -64,9 +64,13 @@ class Handler(BaseHTTPRequestHandler):
             # /score body field name. This is still the local shim, not
             # Latent's reader: see README and latent_guard/reader.py.
             answer = body.get("answer") or body.get("output")
+            prompt = body.get("prompt", "")
+            context = body.get("context", "")
             if not answer:
                 return _send(self, 400, {"error": "answer is required"})
-            result = score_answer(body.get("prompt", ""), answer, body.get("context", ""))
+            if not isinstance(answer, str) or not isinstance(prompt, str) or not isinstance(context, str):
+                return _send(self, 400, {"error": "answer, prompt and context must be strings"})
+            result = score_answer(prompt, answer, context)
             # Add sentence offsets, like the reader's detail block: the
             # local checker reports text and risk only, so offsets are
             # computed by walking the answer in order.

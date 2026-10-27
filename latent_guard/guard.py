@@ -7,7 +7,7 @@ replace with your text, or hand to a stronger model):
 - "replace": same as hold, with the replacement text you supply.
 - "reroute": a flagged answer is replaced by the stronger model's
   answer, from the `stronger_model` callback you supply.
-- "deliver": never hold; the verdict is recorded and the answer goes out.
+- "deliver": never hold a scored answer; the verdict is recorded and the answer goes out.
 
 When the read did not happen (`scored` is False), the guard follows the
 fail-open / fail-closed setting you chose, and says which one it
@@ -151,7 +151,7 @@ def guard_stream(
     """
     if reader is None or not reader.configured:
         return {
-            "delivered_answer": "".join(answer_chunks),
+            "delivered_answer": "" if fail_closed else "".join(answer_chunks),
             "action": "unscored_delivered" if not fail_closed else "unscored_held",
             "cut_at": None,
             "source": "none",

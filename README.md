@@ -27,9 +27,9 @@ Risk 0.70 or above escalates. Below that, the answer passes, with per-sentence r
 
 Per kind, escalated: unsupported number 3/3, wrong date 3/3, invented name 3/3, unsupported claim 0/3. The unsupported claims were all surfaced at sentence level (risk 0.60), just below the threshold. That gap is real and is stated here, not hidden.
 
-Tests: 24/24 passing, stdlib unittest only, including the reader wrapper, guardrail, hash-only queue, and server alias tests. Full rows are in `benchmark/results.json`.
+Tests: 26/26 passing, stdlib unittest only, including the reader wrapper, guardrail, hash-only queue, and server alias tests. Full rows are in `benchmark/results.json`.
 
-On the harder 30-case adversarial set in `eval/adversarial_cases.json` (unit conversions, date formats, same-token contradictions, negation, single names, no-source cases), the local checker scores precision 0.67 and recall 0.44: it false-flags both format variants and misses every contradiction and negation. The reader column in `eval/results.json` is not run, because no key exists here. That gap is the reason the checker is a pre-filter only.
+On the harder 30-case adversarial set in `eval/adversarial_cases.json` (unit conversions, date formats, same-token contradictions, negation, single names, no-source cases), the local checker scores precision 0.67 and recall 0.44: it false-flags both date-format and both unit-conversion variants and misses every contradiction and negation. The reader column in `eval/results.json` is not run, because no key exists here. That gap is the reason the checker is a pre-filter only.
 
 ## Try it
 
@@ -58,7 +58,7 @@ Response: verdict, risk, per-sentence risks, reasons, and start/end offsets, plu
 - `GET /queue`: flagged answers awaiting a human decision.
 - `POST /review`: `{"request_id": "...", "decision": "confirmed" | "released", "note": "..."}`. Each decision becomes one labeled example.
 - `GET /metrics`: counts, flag rate, precision on reviewed items.
-- `GET /export`: labeled examples as JSON lines, for fine-tuning.
+- `GET /export`: labeled examples as JSON lines, for fine-tuning (text mode only; hash mode exports hashes, not text).
 - `GET /health`: uptime check.
 
 Or use it as a library, one pure function, no I/O:

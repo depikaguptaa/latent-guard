@@ -51,10 +51,12 @@ class LatentReader:
         """Push explicitly given url/key into the SDK's global state.
 
         `runlatent.check` reads its destination from module-global state
-        set by `runlatent.configure`, which only runs once on first use.
-        Without this, constructor arguments would be stored here and
-        silently ignored by the actual call, which would use whatever
-        the environment or an earlier configure left behind.
+        set by `runlatent.configure`. Every configure call re-applies the
+        destination (the poster is reused when it is unchanged), so this
+        runs in `__init__` and again in `read()`. Without this,
+        constructor arguments would be stored here and silently ignored
+        by the actual call, which would use whatever the environment or
+        an earlier configure left behind.
         """
         configure = getattr(self._sdk, "configure", None)
         if configure is None:
