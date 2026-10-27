@@ -89,6 +89,17 @@ class TestQueue(unittest.TestCase):
             self.assertEqual(examples[0]["label"], "hallucinated")
             self.assertEqual(q.metrics()["precision_on_reviewed"], 1.0)
 
+    def test_add_rejects_unscored_results(self):
+        # An unscored reader result is not a verdict to review, and
+        # its request_id may be None: the queue refuses it loudly.
+        with tempfile.TemporaryDirectory() as d:
+            q = ReviewQueue(os.path.join(d, "q.json"))
+            unscored = {"request_id": None, "scored": False, "verdict": "unknown",
+                        "risk": None, "sentences": None}
+            with self.assertRaises(ValueError):
+                q.add(unscored, "Summarize.", "Bad.")
+            self.assertEqual(len(q.entries), 0)
+
     def test_add_accepts_reader_shaped_results(self):
         # Reader results carry no "flagged" key: escalate and ood wait
         # for review, pass is delivered, without raising KeyError.

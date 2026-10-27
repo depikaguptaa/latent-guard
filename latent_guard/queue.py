@@ -73,6 +73,12 @@ class ReviewQueue:
         os.replace(tmp, self.path)
 
     def add(self, result: dict, prompt: str, answer: str) -> dict:
+        if result.get("scored") is False:
+            # The queue stores scored answers only: an unscored result
+            # (unknown verdict, no read happened) is not a verdict to
+            # review, and its request_id may be None. Scorer-shaped
+            # results carry no "scored" key and are unaffected.
+            raise ValueError("cannot queue a result that was not scored")
         entry = {
             "request_id": result["request_id"],
             "prompt": prompt if self.store_text else _sha(prompt),

@@ -27,7 +27,7 @@ Risk 0.70 or above escalates. Below that, the answer passes, with per-sentence r
 
 Per kind, escalated: unsupported number 3/3, wrong date 3/3, invented name 3/3, unsupported claim 0/3. The unsupported claims were all surfaced at sentence level (risk 0.60), just below the threshold. That gap is real and is stated here, not hidden.
 
-Tests: 32/32 passing, stdlib unittest only, including the reader wrapper, guardrail, hash-only queue, server alias tests, eval case-loading tests, ood verdict counting, and package exports. Full rows are in `benchmark/results.json`.
+Tests: 36/36 passing, stdlib unittest only, including the reader wrapper, guardrail, hash-only queue, server alias tests, eval case-loading tests, ood verdict counting, package exports, flagged-verdict stream cuts, and unscored queue rejection. Full rows are in `benchmark/results.json`.
 
 On the full 54-case suite in `eval/results.json` (the 30 adversarial cases plus the 24 benchmark cases, run side by side by `eval/run_eval.py`), the local checker scores precision 0.81 and recall 0.57. On the harder 30-case adversarial subset alone it scores precision 0.67 and recall 0.44: it false-flags both date-format and both unit-conversion variants and misses every contradiction and negation. The reader column in `eval/results.json` is filled only by running `eval/run_eval.py` with a key set; without one it reports not run. That gap is the reason the checker is a pre-filter only.
 

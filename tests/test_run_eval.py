@@ -11,7 +11,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, "eval"))
 
-from run_eval import _load_cases, _pr  # noqa: E402
+from run_eval import _is_flagged, _load_cases, _pr  # noqa: E402
 
 
 class TestLoadCases(unittest.TestCase):
@@ -37,6 +37,12 @@ class TestLoadCases(unittest.TestCase):
             self.assertIsInstance(case["context"], str)
             self.assertTrue(case["kind"])
             self.assertTrue(case["prompt"])
+
+    def test_is_flagged(self):
+        self.assertTrue(_is_flagged("escalate"))
+        self.assertTrue(_is_flagged("ood"))
+        for verdict in ("pass", "not_run", "unscored", "unknown", None):
+            self.assertFalse(_is_flagged(verdict))
 
     def test_pr_counts_merged_rows(self):
         rows = [

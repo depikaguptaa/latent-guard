@@ -40,6 +40,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_PROMPT = "Summarize the Aurora Growth Fund Q3 2026 report."
 
 
+def _is_flagged(verdict: str | None) -> bool:
+    """Flagged verdicts, per the SDK: escalate and ood both hold an answer."""
+    return verdict in ("escalate", "ood")
+
+
 def _load_cases() -> list[dict]:
     """All 54 cases, normalized to one shape.
 
@@ -62,7 +67,9 @@ def _load_cases() -> list[dict]:
             "kind": case["kind"],
             "expected": case["expected"],
             "answer": case["answer"],
-            "context": case.get("context", adv["context"]),
+            # Null means "use the shared context"; "" stays "" so the
+            # no-source cases keep their empty context.
+            "context": case["context"] if case.get("context") is not None else adv["context"],
             "prompt": case.get("prompt", DEFAULT_PROMPT),
         })
     with open(os.path.join(HERE, "..", "benchmark", "cases.json"), encoding="utf-8") as f:
@@ -89,11 +96,10 @@ def _pr(rows: list[dict], key: str) -> dict:
     # CheckResult.flagged is verdict in ("escalate", "ood")): counting it
     # as non-escalate would understate the reader's precision and recall
     # whenever the reader returns it.
-    flagged = lambda r: r[key] in ("escalate", "ood")
-    tp = sum(1 for r in scored if r["expected"] == "escalate" and flagged(r))
-    fn = sum(1 for r in scored if r["expected"] == "escalate" and not flagged(r))
-    fp = sum(1 for r in scored if r["expected"] == "pass" and flagged(r))
-    tn = sum(1 for r in scored if r["expected"] == "pass" and not flagged(r))
+    tp = sum(1 for r in scored if r["expected"] == "escalate" and _is_flagged(r[key]))
+    fn = sum(1 for r in scored if r["expected"] == "escalate" and not _is_flagged(r[key]))
+    fp = sum(1 for r in scored if r["expected"] == "pass" and _is_flagged(r[key]))
+    tn = sum(1 for r in scored if r["expected"] == "pass" and not _is_flagged(r[key]))
     return {
         "cases": len(scored),
         "true_positives": tp, "false_negatives": fn,
@@ -159,14 +165,17 @@ def main() -> int:
         per_kind[kind] = {
             "n": len(subset),
             "local_escalated": sum(1 for r in subset if r["local_verdict"] == "escalate"),
-            # "ood" counts as flagged, like "escalate"; see _pr.
-            "reader_escalated": sum(1 for r in subset if r["reader_verdict"] in ("escalate", "ood")) if reader_configured else None,
+            # "ood" counts as flagged, like "escalate"; see _is_flagged.
+            "reader_escalated": sum(1 for r in subset if _is_flagged(r["reader_verdict"])) if reader_configured else None,
         }
 
     disagreements = [
         r for r in rows
         if reader_configured and r["expected"] in ("pass", "escalate")
-        and r["local_verdict"] != r["reader_verdict"]
+        # Disagreement is about the flag decision, not the label: an
+        # escalate from one side and an ood from the other both hold
+        # the answer, so that row is agreement, not a disagreement.
+        and _is_flagged(r["local_verdict"]) != _is_flagged(r["reader_verdict"])
     ]
     summary = {
         "cases": len(rows),

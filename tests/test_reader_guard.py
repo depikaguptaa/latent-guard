@@ -178,6 +178,31 @@ class TestGuard(unittest.TestCase):
         self.assertEqual(result["cut_at"], 0)
         self.assertEqual(result["delivered_answer"], "")
 
+    def test_stream_cuts_flagged_answer_with_no_sentence_over_threshold(self):
+        # The reader flagged the answer but no sentence crossed the
+        # cut: delivering it in full would hand out a flagged answer,
+        # so the stream cuts at the start, like the no-rows case.
+        sentences = [
+            _Sentence(0, 24, "Revenue was $4.2 million.", 0.1),
+            _Sentence(25, 49, "Revenue was $9.9 million.", 0.2),
+        ]
+        for verdict in ("escalate", "ood"):
+            _install_stub(verdict=verdict, sentences=sentences)
+            result = guard_stream("Summarize.",
+                                  ["Revenue was $4.2 million. Revenue was $9.9 million."],
+                                  CTX, reader=LatentReader())
+            self.assertEqual(result["action"], "cut")
+            self.assertEqual(result["cut_at"], 0)
+            self.assertEqual(result["delivered_answer"], "")
+            self.assertEqual(result["verdict"], verdict)
+
+    def test_reroute_without_callback_behaves_like_replace(self):
+        _install_stub()
+        guard = guard_answer("Summarize.", "Revenue was $9.9 million.", CTX,
+                             reader=LatentReader(), policy="reroute")
+        self.assertEqual(guard["action"], "replaced")
+        self.assertIn("holding it", guard["delivered_answer"])
+
     def test_stream_fail_closed_with_no_reader_holds_everything(self):
         # No reader and fail-closed: the action says held, so nothing
         # may be delivered. (Fail-open delivers the full answer.)

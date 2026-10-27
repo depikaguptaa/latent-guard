@@ -6,7 +6,8 @@ replace with your text, or hand to a stronger model):
 - "hold": a flagged answer is replaced with `fallback_text`.
 - "replace": same as hold, with the replacement text you supply.
 - "reroute": a flagged answer is replaced by the stronger model's
-  answer, from the `stronger_model` callback you supply.
+  answer, from the `stronger_model` callback you supply. Without a
+  callback, reroute behaves like replace.
 - "deliver": never hold a scored answer; the verdict is recorded and the answer goes out.
 
 When the read did not happen (`scored` is False), the guard follows the
@@ -176,6 +177,7 @@ def guard_stream(
             "action": "cut",
             "cut_at": 0,
             "source": "reader",
+            "verdict": read["verdict"],
         }
     threshold = read.get("threshold")
     for i, sentence in enumerate(sentences):
@@ -193,5 +195,20 @@ def guard_stream(
                 "action": "cut",
                 "cut_at": i,
                 "source": "reader",
+                "verdict": read["verdict"],
             }
-    return {"delivered_answer": full, "action": "delivered", "cut_at": None, "source": "reader"}
+    if flagged:
+        # The reader flagged the answer but no sentence crossed the
+        # cut: no sentence is individually trusted, so there is no
+        # safe prefix to deliver. Cut at the start, the same as the
+        # no-sentence-rows case above, instead of delivering a
+        # flagged answer in full.
+        return {
+            "delivered_answer": "",
+            "action": "cut",
+            "cut_at": 0,
+            "source": "reader",
+            "verdict": read["verdict"],
+        }
+    return {"delivered_answer": full, "action": "delivered", "cut_at": None,
+            "source": "reader", "verdict": read["verdict"]}
