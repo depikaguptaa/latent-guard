@@ -1,0 +1,373 @@
+{
+ "cases": 24,
+ "true_positives": 9,
+ "false_negatives": 3,
+ "false_positives": 0,
+ "true_negatives": 12,
+ "precision": 1.0,
+ "recall": 0.75,
+ "mean_latency_ms": 0.136,
+ "per_kind": {
+  "unsupported_number": {
+   "n": 3,
+   "escalated": 3,
+   "surfaced_at_sentence_level": 3
+  },
+  "wrong_date": {
+   "n": 3,
+   "escalated": 3,
+   "surfaced_at_sentence_level": 3
+  },
+  "invented_name": {
+   "n": 3,
+   "escalated": 3,
+   "surfaced_at_sentence_level": 3
+  },
+  "unsupported_claim": {
+   "n": 3,
+   "escalated": 0,
+   "surfaced_at_sentence_level": 3
+  }
+ },
+ "rows": [
+  {
+   "id": "clean-01",
+   "expected": "clean",
+   "kind": null,
+   "verdict": "pass",
+   "risk": 0.0,
+   "latency_ms": 0.301,
+   "sentence_risks": [
+    0.0,
+    0.0
+   ],
+   "kinds_found": []
+  },
+  {
+   "id": "clean-02",
+   "expected": "clean",
+   "kind": null,
+   "verdict": "pass",
+   "risk": 0.0,
+   "latency_ms": 0.153,
+   "sentence_risks": [
+    0.0,
+    0.0
+   ],
+   "kinds_found": []
+  },
+  {
+   "id": "clean-03",
+   "expected": "clean",
+   "kind": null,
+   "verdict": "pass",
+   "risk": 0.0,
+   "latency_ms": 0.137,
+   "sentence_risks": [
+    0.0,
+    0.0
+   ],
+   "kinds_found": []
+  },
+  {
+   "id": "clean-04",
+   "expected": "clean",
+   "kind": null,
+   "verdict": "pass",
+   "risk": 0.0,
+   "latency_ms": 0.136,
+   "sentence_risks": [
+    0.0,
+    0.0
+   ],
+   "kinds_found": []
+  },
+  {
+   "id": "clean-05",
+   "expected": "clean",
+   "kind": null,
+   "verdict": "pass",
+   "risk": 0.0,
+   "latency_ms": 0.126,
+   "sentence_risks": [
+    0.0,
+    0.0
+   ],
+   "kinds_found": []
+  },
+  {
+   "id": "clean-06",
+   "expected": "clean",
+   "kind": null,
+   "verdict": "pass",
+   "risk": 0.0,
+   "latency_ms": 0.121,
+   "sentence_risks": [
+    0.0,
+    0.0
+   ],
+   "kinds_found": []
+  },
+  {
+   "id": "clean-07",
+   "expected": "clean",
+   "kind": null,
+   "verdict": "pass",
+   "risk": 0.0,
+   "latency_ms": 0.142,
+   "sentence_risks": [
+    0.0,
+    0.0
+   ],
+   "kinds_found": []
+  },
+  {
+   "id": "clean-08",
+   "expected": "clean",
+   "kind": null,
+   "verdict": "pass",
+   "risk": 0.0,
+   "latency_ms": 0.212,
+   "sentence_risks": [
+    0.0,
+    0.0
+   ],
+   "kinds_found": []
+  },
+  {
+   "id": "clean-09",
+   "expected": "clean",
+   "kind": null,
+   "verdict": "pass",
+   "risk": 0.0,
+   "latency_ms": 0.12,
+   "sentence_risks": [
+    0.0,
+    0.0
+   ],
+   "kinds_found": []
+  },
+  {
+   "id": "clean-10",
+   "expected": "clean",
+   "kind": null,
+   "verdict": "pass",
+   "risk": 0.0,
+   "latency_ms": 0.126,
+   "sentence_risks": [
+    0.0,
+    0.0
+   ],
+   "kinds_found": []
+  },
+  {
+   "id": "clean-11",
+   "expected": "clean",
+   "kind": null,
+   "verdict": "pass",
+   "risk": 0.0,
+   "latency_ms": 0.124,
+   "sentence_risks": [
+    0.0,
+    0.0
+   ],
+   "kinds_found": []
+  },
+  {
+   "id": "clean-12",
+   "expected": "clean",
+   "kind": null,
+   "verdict": "pass",
+   "risk": 0.0,
+   "latency_ms": 0.128,
+   "sentence_risks": [
+    0.0,
+    0.0
+   ],
+   "kinds_found": []
+  },
+  {
+   "id": "num-01",
+   "expected": "hallucinated",
+   "kind": "unsupported_number",
+   "verdict": "escalate",
+   "risk": 0.9,
+   "latency_ms": 0.12,
+   "sentence_risks": [
+    0.9,
+    0.0
+   ],
+   "kinds_found": [
+    "unsupported_number"
+   ]
+  },
+  {
+   "id": "num-02",
+   "expected": "hallucinated",
+   "kind": "unsupported_number",
+   "verdict": "escalate",
+   "risk": 0.9,
+   "latency_ms": 0.127,
+   "sentence_risks": [
+    0.9,
+    0.0
+   ],
+   "kinds_found": [
+    "unsupported_number"
+   ]
+  },
+  {
+   "id": "num-03",
+   "expected": "hallucinated",
+   "kind": "unsupported_number",
+   "verdict": "escalate",
+   "risk": 0.9,
+   "latency_ms": 0.118,
+   "sentence_risks": [
+    0.9,
+    0.0
+   ],
+   "kinds_found": [
+    "unsupported_number"
+   ]
+  },
+  {
+   "id": "date-01",
+   "expected": "hallucinated",
+   "kind": "wrong_date",
+   "verdict": "escalate",
+   "risk": 0.9,
+   "latency_ms": 0.117,
+   "sentence_risks": [
+    0.9,
+    0.0
+   ],
+   "kinds_found": [
+    "unsupported_number",
+    "wrong_date"
+   ]
+  },
+  {
+   "id": "date-02",
+   "expected": "hallucinated",
+   "kind": "wrong_date",
+   "verdict": "escalate",
+   "risk": 0.9,
+   "latency_ms": 0.116,
+   "sentence_risks": [
+    0.9,
+    0.0
+   ],
+   "kinds_found": [
+    "unsupported_number",
+    "wrong_date"
+   ]
+  },
+  {
+   "id": "date-03",
+   "expected": "hallucinated",
+   "kind": "wrong_date",
+   "verdict": "escalate",
+   "risk": 0.9,
+   "latency_ms": 0.113,
+   "sentence_risks": [
+    0.9,
+    0.0
+   ],
+   "kinds_found": [
+    "unsupported_number",
+    "wrong_date"
+   ]
+  },
+  {
+   "id": "name-01",
+   "expected": "hallucinated",
+   "kind": "invented_name",
+   "verdict": "escalate",
+   "risk": 0.85,
+   "latency_ms": 0.117,
+   "sentence_risks": [
+    0.85,
+    0.0
+   ],
+   "kinds_found": [
+    "invented_name"
+   ]
+  },
+  {
+   "id": "name-02",
+   "expected": "hallucinated",
+   "kind": "invented_name",
+   "verdict": "escalate",
+   "risk": 0.85,
+   "latency_ms": 0.11,
+   "sentence_risks": [
+    0.85,
+    0.0
+   ],
+   "kinds_found": [
+    "invented_name"
+   ]
+  },
+  {
+   "id": "name-03",
+   "expected": "hallucinated",
+   "kind": "invented_name",
+   "verdict": "escalate",
+   "risk": 0.85,
+   "latency_ms": 0.106,
+   "sentence_risks": [
+    0.85,
+    0.0
+   ],
+   "kinds_found": [
+    "invented_name"
+   ]
+  },
+  {
+   "id": "claim-01",
+   "expected": "hallucinated",
+   "kind": "unsupported_claim",
+   "verdict": "pass",
+   "risk": 0.6,
+   "latency_ms": 0.147,
+   "sentence_risks": [
+    0.0,
+    0.6
+   ],
+   "kinds_found": [
+    "unsupported_claim"
+   ]
+  },
+  {
+   "id": "claim-02",
+   "expected": "hallucinated",
+   "kind": "unsupported_claim",
+   "verdict": "pass",
+   "risk": 0.6,
+   "latency_ms": 0.126,
+   "sentence_risks": [
+    0.0,
+    0.6
+   ],
+   "kinds_found": [
+    "unsupported_claim"
+   ]
+  },
+  {
+   "id": "claim-03",
+   "expected": "hallucinated",
+   "kind": "unsupported_claim",
+   "verdict": "pass",
+   "risk": 0.6,
+   "latency_ms": 0.122,
+   "sentence_risks": [
+    0.0,
+    0.6
+   ],
+   "kinds_found": [
+    "unsupported_claim"
+   ]
+  }
+ ]
+}
