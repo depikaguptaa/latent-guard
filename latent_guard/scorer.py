@@ -1,12 +1,11 @@
 """Deterministic, offline answer checker.
 
-It mirrors the shape of Latent's own public SDK contract (read from the
-runlatent 0.3.9 wheel on PyPI, not from a live call): one POST with a
-prompt, an answer and source context, back a verdict plus one risk score
-per sentence. The difference is deliberate: this checker needs no API key,
-no GPU and no network, so it can run where a hosted reader cannot, for
-example air-gapped, or as a cheap first pass that only sends flagged
-answers on to a judge.
+It mirrors the signature of Latent's `runlatent.check(prompt, answer,
+context=...)` (read from the runlatent 0.3.9 wheel on PyPI, not from a
+live call): prompt, answer, and source context in, a verdict plus one
+risk score per sentence out. The SDK itself renders context as a
+`Knowledge:` line in the messages and posts messages, output, and
+context to `/score`; this checker does not post anything.
 
 What it checks, sentence by sentence, against the supplied context:
   * unsupported number: a number in the answer that appears nowhere in

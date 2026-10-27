@@ -38,17 +38,25 @@ class _Result:
         self.suite_fired = ("grounding",) if scored else ()
         self.detail, self.status = detail, status
         self.request_id = "req-1"
+        self.resume = None
+        self.retry_after_s = None
 
 
 def _install_stub(verdict="escalate", risk=0.9, sentences=None, fail=None):
     module = types.ModuleType("runlatent")
+    calls = []
 
     def check(prompt, answer, context=None, timeout=2.0, detail=True):
         if fail is not None:
             raise fail
         return _Result(verdict=verdict, risk=risk, sentences=sentences)
 
+    def configure(api_url=None, api_key=None, **kwargs):
+        calls.append((api_url, api_key))
+
     module.check = check
+    module.configure = configure
+    module.configure_calls = calls
     sys.modules["runlatent"] = module
     os.environ["LATENT_API_URL"] = "https://example.invalid"
     os.environ["LATENT_API_KEY"] = "test-key"
@@ -94,6 +102,14 @@ class TestReader(unittest.TestCase):
         self.assertFalse(reader.configured)
         read = reader.read("Summarize.", "Revenue was $9.9 million.", CTX)
         self.assertEqual(read["unscored_reason"], "not_configured")
+
+    def test_explicit_args_reach_sdk_configure(self):
+        stub = _install_stub()
+        reader = LatentReader(api_url="https://explicit.example",
+                              api_key="explicit-key")
+        self.assertIn(("https://explicit.example", "explicit-key"),
+                      stub.configure_calls)
+        self.assertEqual(reader.api_url, "https://explicit.example")
 
 
 class TestGuard(unittest.TestCase):
@@ -153,6 +169,14 @@ class TestGuard(unittest.TestCase):
         self.assertEqual(result["action"], "cut")
         self.assertEqual(result["cut_at"], 1)
         self.assertEqual(result["delivered_answer"], "Revenue was $4.2 million.")
+
+    def test_stream_cuts_flagged_answer_with_no_sentence_rows(self):
+        _install_stub(sentences=None)
+        result = guard_stream("Summarize.", ["Revenue was $9.9 million."],
+                              CTX, reader=LatentReader())
+        self.assertEqual(result["action"], "cut")
+        self.assertEqual(result["cut_at"], 0)
+        self.assertEqual(result["delivered_answer"], "")
 
 
 class TestHashQueue(unittest.TestCase):

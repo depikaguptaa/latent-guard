@@ -29,10 +29,15 @@ class ReviewQueue:
         self.path = path
         self.store_text = store_text
         self.entries: dict = {}
+        parent = os.path.dirname(path)
+        if parent:
+            os.makedirs(parent, exist_ok=True)
         if os.path.exists(path):
             with open(path, encoding="utf-8") as f:
-                for row in json.load(f):
-                    self.entries[row["request_id"]] = row
+                text = f.read().strip()
+            rows = json.loads(text) if text else []
+            for row in rows:
+                self.entries[row["request_id"]] = row
 
     def _save(self) -> None:
         tmp = self.path + ".tmp"
@@ -75,18 +80,27 @@ class ReviewQueue:
     def labeled_examples(self) -> list:
         out = []
         for e in self.entries.values():
-            if e["status"] == "reviewed":
+            if e["status"] == "reviewed" and e.get("decision") in DECISIONS:
+                # Sentences may be reader-shaped (start/end/text/risk,
+                # no reasons) or None: only scorer-shaped rows carry kinds.
+                kinds = {
+                    r.get("kind")
+                    for s in (e.get("sentences") or [])
+                    if isinstance(s, dict)
+                    for r in (s.get("reasons") or [])
+                    if isinstance(r, dict) and r.get("kind")
+                }
                 out.append({
                     "prompt": e["prompt"],
                     "answer": e["answer"],
                     "label": DECISIONS[e["decision"]],
-                    "failure_kinds": sorted({r["kind"] for s in e["sentences"] for r in s["reasons"]}),
+                    "failure_kinds": sorted(kinds),
                 })
         return out
 
     def metrics(self) -> dict:
         total = len(self.entries)
-        flagged = sum(1 for e in self.entries.values() if e["verdict"] == "escalate")
+        flagged = sum(1 for e in self.entries.values() if e["verdict"] in ("escalate", "ood"))
         reviewed = sum(1 for e in self.entries.values() if e["status"] == "reviewed")
         confirmed = sum(1 for e in self.entries.values() if e["decision"] == "confirmed")
         return {

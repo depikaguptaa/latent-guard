@@ -6,7 +6,7 @@
  "true_negatives": 12,
  "precision": 1.0,
  "recall": 0.75,
- "mean_latency_ms": 0.154,
+ "mean_latency_ms": 0.16,
  "per_kind": {
   "unsupported_number": {
    "n": 3,
@@ -36,7 +36,7 @@
    "kind": null,
    "verdict": "pass",
    "risk": 0.0,
-   "latency_ms": 0.387,
+   "latency_ms": 0.394,
    "sentence_risks": [
     0.0,
     0.0
@@ -49,7 +49,7 @@
    "kind": null,
    "verdict": "pass",
    "risk": 0.0,
-   "latency_ms": 0.167,
+   "latency_ms": 0.224,
    "sentence_risks": [
     0.0,
     0.0
@@ -62,7 +62,7 @@
    "kind": null,
    "verdict": "pass",
    "risk": 0.0,
-   "latency_ms": 0.138,
+   "latency_ms": 0.152,
    "sentence_risks": [
     0.0,
     0.0
@@ -75,7 +75,7 @@
    "kind": null,
    "verdict": "pass",
    "risk": 0.0,
-   "latency_ms": 0.141,
+   "latency_ms": 0.134,
    "sentence_risks": [
     0.0,
     0.0
@@ -88,7 +88,7 @@
    "kind": null,
    "verdict": "pass",
    "risk": 0.0,
-   "latency_ms": 0.141,
+   "latency_ms": 0.223,
    "sentence_risks": [
     0.0,
     0.0
@@ -101,7 +101,7 @@
    "kind": null,
    "verdict": "pass",
    "risk": 0.0,
-   "latency_ms": 0.136,
+   "latency_ms": 0.121,
    "sentence_risks": [
     0.0,
     0.0
@@ -114,7 +114,7 @@
    "kind": null,
    "verdict": "pass",
    "risk": 0.0,
-   "latency_ms": 0.13,
+   "latency_ms": 0.199,
    "sentence_risks": [
     0.0,
     0.0
@@ -127,7 +127,7 @@
    "kind": null,
    "verdict": "pass",
    "risk": 0.0,
-   "latency_ms": 0.192,
+   "latency_ms": 0.133,
    "sentence_risks": [
     0.0,
     0.0
@@ -140,7 +140,7 @@
    "kind": null,
    "verdict": "pass",
    "risk": 0.0,
-   "latency_ms": 0.143,
+   "latency_ms": 0.183,
    "sentence_risks": [
     0.0,
     0.0
@@ -153,7 +153,7 @@
    "kind": null,
    "verdict": "pass",
    "risk": 0.0,
-   "latency_ms": 0.163,
+   "latency_ms": 0.128,
    "sentence_risks": [
     0.0,
     0.0
@@ -166,7 +166,7 @@
    "kind": null,
    "verdict": "pass",
    "risk": 0.0,
-   "latency_ms": 0.132,
+   "latency_ms": 0.125,
    "sentence_risks": [
     0.0,
     0.0
@@ -179,7 +179,7 @@
    "kind": null,
    "verdict": "pass",
    "risk": 0.0,
-   "latency_ms": 0.14,
+   "latency_ms": 0.125,
    "sentence_risks": [
     0.0,
     0.0
@@ -192,7 +192,7 @@
    "kind": "unsupported_number",
    "verdict": "escalate",
    "risk": 0.9,
-   "latency_ms": 0.12,
+   "latency_ms": 0.132,
    "sentence_risks": [
     0.9,
     0.0
@@ -207,7 +207,7 @@
    "kind": "unsupported_number",
    "verdict": "escalate",
    "risk": 0.9,
-   "latency_ms": 0.117,
+   "latency_ms": 0.218,
    "sentence_risks": [
     0.9,
     0.0
@@ -222,7 +222,7 @@
    "kind": "unsupported_number",
    "verdict": "escalate",
    "risk": 0.9,
-   "latency_ms": 0.2,
+   "latency_ms": 0.128,
    "sentence_risks": [
     0.9,
     0.0
@@ -237,7 +237,7 @@
    "kind": "wrong_date",
    "verdict": "escalate",
    "risk": 0.9,
-   "latency_ms": 0.158,
+   "latency_ms": 0.116,
    "sentence_risks": [
     0.9,
     0.0
@@ -269,7 +269,7 @@
    "kind": "wrong_date",
    "verdict": "escalate",
    "risk": 0.9,
-   "latency_ms": 0.171,
+   "latency_ms": 0.112,
    "sentence_risks": [
     0.9,
     0.0
@@ -285,7 +285,7 @@
    "kind": "invented_name",
    "verdict": "escalate",
    "risk": 0.85,
-   "latency_ms": 0.115,
+   "latency_ms": 0.161,
    "sentence_risks": [
     0.85,
     0.0
@@ -300,7 +300,7 @@
    "kind": "invented_name",
    "verdict": "escalate",
    "risk": 0.85,
-   "latency_ms": 0.111,
+   "latency_ms": 0.122,
    "sentence_risks": [
     0.85,
     0.0
@@ -315,7 +315,7 @@
    "kind": "invented_name",
    "verdict": "escalate",
    "risk": 0.85,
-   "latency_ms": 0.176,
+   "latency_ms": 0.109,
    "sentence_risks": [
     0.85,
     0.0
@@ -330,7 +330,7 @@
    "kind": "unsupported_claim",
    "verdict": "pass",
    "risk": 0.6,
-   "latency_ms": 0.133,
+   "latency_ms": 0.236,
    "sentence_risks": [
     0.0,
     0.6
@@ -345,7 +345,7 @@
    "kind": "unsupported_claim",
    "verdict": "pass",
    "risk": 0.6,
-   "latency_ms": 0.125,
+   "latency_ms": 0.126,
    "sentence_risks": [
     0.0,
     0.6
@@ -360,7 +360,7 @@
    "kind": "unsupported_claim",
    "verdict": "pass",
    "risk": 0.6,
-   "latency_ms": 0.142,
+   "latency_ms": 0.127,
    "sentence_risks": [
     0.0,
     0.6

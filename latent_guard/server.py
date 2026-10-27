@@ -57,6 +57,8 @@ class Handler(BaseHTTPRequestHandler):
             body = self._read_json()
         except Exception:
             return _send(self, 400, {"error": "invalid JSON"})
+        if not isinstance(body, dict):
+            return _send(self, 400, {"error": "JSON object expected"})
         if path == "/score":
             # Accept "output" as an alias for "answer", matching the raw
             # /score body field name. This is still the local shim, not
@@ -82,7 +84,7 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/review":
             try:
                 entry = QUEUE.review(body["request_id"], body["decision"], body.get("note", ""))
-            except (KeyError, ValueError) as exc:
+            except (KeyError, ValueError, TypeError) as exc:
                 return _send(self, 400, {"error": str(exc)})
             return _send(self, 200, entry)
         return _send(self, 404, {"error": "unknown route"})

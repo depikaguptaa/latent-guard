@@ -23,11 +23,11 @@ Risk 0.70 or above escalates. Below that, the answer passes, with per-sentence r
 |---|---|
 | Precision | 1.0 (9 escalated, 0 false flags) |
 | Recall | 0.75 (9 of 12 hallucinations escalated) |
-| Mean scorer latency | 0.14 ms (local checker only, not comparable to Latent's reader) |
+| Mean scorer latency | about 0.14 ms (local checker only, not comparable to Latent's reader) |
 
 Per kind, escalated: unsupported number 3/3, wrong date 3/3, invented name 3/3, unsupported claim 0/3. The unsupported claims were all surfaced at sentence level (risk 0.60), just below the threshold. That gap is real and is stated here, not hidden.
 
-Tests: 19/19 passing, stdlib unittest only, including the reader wrapper, guardrail, hash-only queue, and server alias tests. Full rows are in `benchmark/results.json`.
+Tests: 24/24 passing, stdlib unittest only, including the reader wrapper, guardrail, hash-only queue, and server alias tests. Full rows are in `benchmark/results.json`.
 
 On the harder 30-case adversarial set in `eval/adversarial_cases.json` (unit conversions, date formats, same-token contradictions, negation, single names, no-source cases), the local checker scores precision 0.67 and recall 0.44: it false-flags both format variants and misses every contradiction and negation. The reader column in `eval/results.json` is not run, because no key exists here. That gap is the reason the checker is a pre-filter only.
 
@@ -75,11 +75,11 @@ Set `PORT` and `LATENT_GUARD_DATA` to change the port and data directory. No dep
 
 ## Honest limits
 
-1. This checker only catches hallucinations that reuse a number, date, or name absent from the context, or a claim with no shared content words. A wrong answer built only from in-context facts, combined wrongly, will pass. That is the same class of limit Latent's own research notes flag for probe based detection.
+1. This checker only catches hallucinations that reuse a number, date, or name absent from the context, or a claim with no shared content words. A wrong answer built only from in-context facts, combined wrongly, will pass.
 2. The benchmark is a 24-case fixture set written for this build, not a general accuracy claim. The recall gap on freeform unsupported claims is real.
 3. No Latent API key, no GPU, no live model calls. Answers in the demo and benchmark are fixed strings. Latent's cloud API was not called. The contract was read from the public `runlatent` 0.3.9 wheel on PyPI. The review queue also differs from Latent's console in one important way: by default it stores full prompt and answer text in a JSON file. Latent's site says each scored request writes a hash-only record, never the text. Set `LATENT_GUARD_STORE_TEXT=0` for hash-only queue storage in this repo, and use it for anything beyond a local demo.
 4. The first version had no fail-open or fail-closed behavior, no streaming cut, no `ood` or `unscored` verdicts, and no action reporting. The guardrail in `latent_guard/guard.py` adds those, on top of the real reader when it is configured, and labels the local checker as a pre-filter only when it is not.
-4. No job posting was found for this Latent. This is a founder play, not an application to a posted role. The ask in the outreach is a 20-minute call or a 2-week trial, not a claim about a role.
+5. No job posting was found for this Latent. This is a founder play, not an application to a posted role. The ask in the outreach is a 20-minute call or a 2-week trial, not a claim about a role.
 
 ## The real loop
 
@@ -87,7 +87,7 @@ Set `PORT` and `LATENT_GUARD_DATA` to change the port and data directory. No dep
 
 ```bash
 pip install "runlatent==0.3.9"
-export LATENT_API_URL="https://app.runlatent.ai"
+export LATENT_API_URL="https://api.runlatent.ai"
 export LATENT_API_KEY="your key here"
 python eval/run_eval.py
 ```

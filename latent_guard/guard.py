@@ -142,8 +142,8 @@ def guard_stream(
     """Cut a streamed answer at the first unsupported sentence.
 
     The reader scores finished answers, so streaming is approximated
-    here by scoring the answer built up sentence by sentence and
-    stopping at the first sentence whose read flags it. The returned
+    here by scoring the finished answer once, then cutting at the first
+    flagged sentence using the reader's offsets. The returned
     `delivered_answer` is the prefix that passed, and `cut_at` names
     the sentence index where delivery stopped, or None if nothing
     was cut. This is a local approximation, not Latent's in-band
@@ -167,11 +167,26 @@ def guard_stream(
             "source": "reader",
         }
     sentences = read.get("sentences") or []
+    flagged = read["verdict"] in ("escalate", "ood")
+    if flagged and not sentences:
+        # The reader flagged the answer but gave no sentence rows:
+        # there is no safe prefix to deliver, so cut at the start.
+        return {
+            "delivered_answer": "",
+            "action": "cut",
+            "cut_at": 0,
+            "source": "reader",
+        }
     threshold = read.get("threshold")
     for i, sentence in enumerate(sentences):
         risk = sentence.get("risk") or 0.0
-        over = threshold is not None and risk >= threshold
-        if over or (threshold is None and read["verdict"] in ("escalate", "ood") and risk >= 0.7):
+        if threshold is not None:
+            over = risk >= threshold
+        else:
+            # No calibrated cut came back: any sentence with risk in a
+            # flagged verdict counts as the cut point.
+            over = flagged and risk > 0
+        if over:
             prefix = full[: sentence.get("start") or 0]
             return {
                 "delivered_answer": prefix,

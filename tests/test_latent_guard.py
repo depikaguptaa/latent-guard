@@ -57,6 +57,25 @@ class TestScorer(unittest.TestCase):
 
 
 class TestQueue(unittest.TestCase):
+    def test_empty_queue_file_opens_empty(self):
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "q.json")
+            open(path, "w").close()
+            q = ReviewQueue(path)
+            self.assertEqual(len(q.entries), 0)
+
+    def test_labeled_examples_tolerate_reader_sentences(self):
+        with tempfile.TemporaryDirectory() as d:
+            q = ReviewQueue(os.path.join(d, "q.json"))
+            result = {"request_id": "r1", "verdict": "escalate", "risk": 0.9,
+                      "flagged": True,
+                      "sentences": [{"start": 0, "end": 10, "text": "Bad.", "risk": 0.9}]}
+            q.add(result, "Summarize.", "Bad.")
+            q.review("r1", "confirmed")
+            examples = q.labeled_examples()
+            self.assertEqual(examples[0]["label"], "hallucinated")
+            self.assertEqual(examples[0]["failure_kinds"], [])
+
     def test_review_and_export(self):
         with tempfile.TemporaryDirectory() as d:
             q = ReviewQueue(os.path.join(d, "q.json"))
@@ -101,6 +120,26 @@ class TestServer(unittest.TestCase):
             metrics = call("GET", "/metrics")
             self.assertEqual(metrics["total_scored"], 1)
             self.assertEqual(metrics["precision_on_reviewed"], 1.0)
+            srv.shutdown()
+
+    def test_non_object_json_returns_400_not_a_dropped_connection(self):
+        import threading
+        from http.server import ThreadingHTTPServer
+
+        import latent_guard.server as server_mod
+        from latent_guard.server import Handler
+
+        with tempfile.TemporaryDirectory() as d:
+            server_mod.QUEUE = ReviewQueue(os.path.join(d, "q.json"))
+            srv = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+            threading.Thread(target=srv.serve_forever, daemon=True).start()
+            base = f"http://127.0.0.1:{srv.server_address[1]}"
+            req = urllib.request.Request(base + "/score", method="POST",
+                                         data=b"[]",
+                                         headers={"Content-Type": "application/json"})
+            with self.assertRaises(urllib.error.HTTPError) as ctx:
+                urllib.request.urlopen(req)
+            self.assertEqual(ctx.exception.code, 400)
             srv.shutdown()
 
 

@@ -32,6 +32,8 @@ class LatentReader:
     """Thin wrapper around runlatent.check(). Import is lazy."""
 
     def __init__(self, api_url: str | None = None, api_key: str | None = None) -> None:
+        self._explicit_url = api_url is not None
+        self._explicit_key = api_key is not None
         self.api_url = api_url or os.environ.get("LATENT_API_URL", "")
         self.api_key = api_key or os.environ.get("LATENT_API_KEY", "")
         self._sdk = None
@@ -42,6 +44,25 @@ class LatentReader:
             self._sdk = runlatent
         except ImportError as exc:
             self._sdk_error = str(exc)
+        if self._explicit_url or self._explicit_key:
+            self._apply_config()
+
+    def _apply_config(self) -> None:
+        """Push explicitly given url/key into the SDK's global state.
+
+        `runlatent.check` reads its destination from module-global state
+        set by `runlatent.configure`, which only runs once on first use.
+        Without this, constructor arguments would be stored here and
+        silently ignored by the actual call, which would use whatever
+        the environment or an earlier configure left behind.
+        """
+        configure = getattr(self._sdk, "configure", None)
+        if configure is None:
+            return
+        try:
+            configure(api_url=self.api_url or None, api_key=self.api_key or None)
+        except Exception:  # noqa: BLE001 - read() reports refusals as data
+            pass
 
     @property
     def configured(self) -> bool:
@@ -74,7 +95,11 @@ class LatentReader:
                 "detail": self.config_error,
                 "status": 0,
                 "request_id": None,
+                "resume": None,
+                "retry_after_s": None,
             }
+        if self._explicit_url or self._explicit_key:
+            self._apply_config()
         try:
             result = self._sdk.check(
                 prompt, answer, context=context, timeout=timeout, detail=True
@@ -90,6 +115,8 @@ class LatentReader:
                 "detail": str(exc),
                 "status": 0,
                 "request_id": None,
+                "resume": None,
+                "retry_after_s": None,
             }
         sentences = None
         if result.sentences is not None:
@@ -118,4 +145,6 @@ class LatentReader:
             "detail": result.detail,
             "status": result.status,
             "request_id": result.request_id,
+            "resume": getattr(result, "resume", None),
+            "retry_after_s": getattr(result, "retry_after_s", None),
         }
