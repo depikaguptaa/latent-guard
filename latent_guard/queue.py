@@ -82,7 +82,8 @@ class ReviewQueue:
             "verdict": result["verdict"],
             "risk": result["risk"],
             "sentences": result["sentences"] if self.store_text else _scrub_sentences(result["sentences"]),
-            "status": "pending_review" if result["flagged"] else "delivered",
+            "status": "pending_review" if result.get(
+                "flagged", result["verdict"] in ("escalate", "ood")) else "delivered",
             "decision": None,
             "note": None,
             "created_at": time.time(),

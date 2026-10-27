@@ -89,6 +89,26 @@ class TestQueue(unittest.TestCase):
             self.assertEqual(examples[0]["label"], "hallucinated")
             self.assertEqual(q.metrics()["precision_on_reviewed"], 1.0)
 
+    def test_add_accepts_reader_shaped_results(self):
+        # Reader results carry no "flagged" key: escalate and ood wait
+        # for review, pass is delivered, without raising KeyError.
+        with tempfile.TemporaryDirectory() as d:
+            q = ReviewQueue(os.path.join(d, "q.json"))
+            for verdict, status in (("escalate", "pending_review"),
+                                    ("ood", "pending_review"),
+                                    ("pass", "delivered")):
+                result = {"request_id": f"r-{verdict}", "verdict": verdict, "risk": 0.9,
+                          "sentences": [{"start": 0, "end": 10, "text": "Bad.", "risk": 0.9}]}
+                entry = q.add(result, "Summarize.", "Bad.")
+                self.assertEqual(entry["status"], status)
+
+
+class TestExports(unittest.TestCase):
+    def test_package_exports(self):
+        from latent_guard import LatentReader, ReviewQueue, guard_answer, guard_stream, score_answer
+        for obj in (LatentReader, ReviewQueue, guard_answer, guard_stream, score_answer):
+            self.assertTrue(callable(obj))
+
 
 class TestServer(unittest.TestCase):
     def test_score_queue_review_export_roundtrip(self):

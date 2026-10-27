@@ -85,10 +85,15 @@ def _load_cases() -> list[dict]:
 
 def _pr(rows: list[dict], key: str) -> dict:
     scored = [r for r in rows if r["expected"] in ("pass", "escalate")]
-    tp = sum(1 for r in scored if r["expected"] == "escalate" and r[key] == "escalate")
-    fn = sum(1 for r in scored if r["expected"] == "escalate" and r[key] != "escalate")
-    fp = sum(1 for r in scored if r["expected"] == "pass" and r[key] == "escalate")
-    tn = sum(1 for r in scored if r["expected"] == "pass" and r[key] != "escalate")
+    # "ood" is a flagged verdict, like "escalate" (the SDK's own
+    # CheckResult.flagged is verdict in ("escalate", "ood")): counting it
+    # as non-escalate would understate the reader's precision and recall
+    # whenever the reader returns it.
+    flagged = lambda r: r[key] in ("escalate", "ood")
+    tp = sum(1 for r in scored if r["expected"] == "escalate" and flagged(r))
+    fn = sum(1 for r in scored if r["expected"] == "escalate" and not flagged(r))
+    fp = sum(1 for r in scored if r["expected"] == "pass" and flagged(r))
+    tn = sum(1 for r in scored if r["expected"] == "pass" and not flagged(r))
     return {
         "cases": len(scored),
         "true_positives": tp, "false_negatives": fn,
@@ -154,7 +159,8 @@ def main() -> int:
         per_kind[kind] = {
             "n": len(subset),
             "local_escalated": sum(1 for r in subset if r["local_verdict"] == "escalate"),
-            "reader_escalated": sum(1 for r in subset if r["reader_verdict"] == "escalate") if reader_configured else None,
+            # "ood" counts as flagged, like "escalate"; see _pr.
+            "reader_escalated": sum(1 for r in subset if r["reader_verdict"] in ("escalate", "ood")) if reader_configured else None,
         }
 
     disagreements = [

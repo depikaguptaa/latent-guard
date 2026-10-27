@@ -27,9 +27,9 @@ Risk 0.70 or above escalates. Below that, the answer passes, with per-sentence r
 
 Per kind, escalated: unsupported number 3/3, wrong date 3/3, invented name 3/3, unsupported claim 0/3. The unsupported claims were all surfaced at sentence level (risk 0.60), just below the threshold. That gap is real and is stated here, not hidden.
 
-Tests: 30/30 passing, stdlib unittest only, including the reader wrapper, guardrail, hash-only queue, server alias tests, and eval case-loading tests. Full rows are in `benchmark/results.json`.
+Tests: 32/32 passing, stdlib unittest only, including the reader wrapper, guardrail, hash-only queue, server alias tests, eval case-loading tests, ood verdict counting, and package exports. Full rows are in `benchmark/results.json`.
 
-On the full 54-case suite in `eval/results.json` (the 30 adversarial cases plus the 24 benchmark cases, run side by side by `eval/run_eval.py`), the local checker scores precision 0.81 and recall 0.57. On the harder 30-case adversarial subset alone it scores precision 0.67 and recall 0.44: it false-flags both date-format and both unit-conversion variants and misses every contradiction and negation. The reader column in `eval/results.json` is not run, because no key exists here. That gap is the reason the checker is a pre-filter only.
+On the full 54-case suite in `eval/results.json` (the 30 adversarial cases plus the 24 benchmark cases, run side by side by `eval/run_eval.py`), the local checker scores precision 0.81 and recall 0.57. On the harder 30-case adversarial subset alone it scores precision 0.67 and recall 0.44: it false-flags both date-format and both unit-conversion variants and misses every contradiction and negation. The reader column in `eval/results.json` is filled only by running `eval/run_eval.py` with a key set; without one it reports not run. That gap is the reason the checker is a pre-filter only.
 
 ## Try it
 
@@ -77,9 +77,9 @@ Set `PORT` and `LATENT_GUARD_DATA` to change the port and data directory. No dep
 
 1. This checker only catches hallucinations that reuse a number, date, or name absent from the context, or a claim with no shared content words. A wrong answer built only from in-context facts, combined wrongly, will pass.
 2. The benchmark is a 24-case fixture set written for this build, not a general accuracy claim. The recall gap on freeform unsupported claims is real.
-3. No Latent API key, no GPU, no live model calls. Answers in the demo and benchmark are fixed strings. Latent's cloud API was not called. The contract was read from the public `runlatent` 0.3.9 wheel on PyPI. The review queue also differs from Latent's console in one important way: by default it stores full prompt and answer text in a JSON file. Latent's site says each scored request writes a hash-only record, never the text. Set `LATENT_GUARD_STORE_TEXT=0` for hash-only queue storage in this repo, and use it for anything beyond a local demo.
+3. No GPU, no live model calls. Answers in the demo and benchmark are fixed strings. The 54-case eval was run against Latent's live reader from the author's machine with her own Free key; without `LATENT_API_URL` and `LATENT_API_KEY` set, `eval/run_eval.py` reports the reader column as not run. The contract was read from the public `runlatent` 0.3.9 wheel on PyPI. The review queue also differs from Latent's console in one important way: by default it stores full prompt and answer text in a JSON file. Latent's site says each scored request writes a hash-only record, never the text. Set `LATENT_GUARD_STORE_TEXT=0` for hash-only queue storage in this repo, and use it for anything beyond a local demo.
 4. The first version had no fail-open or fail-closed behavior, no streaming cut, no `ood` or `unscored` verdicts, and no action reporting. The guardrail in `latent_guard/guard.py` adds those, on top of the real reader when it is configured, and labels the local checker as a pre-filter only when it is not.
-5. No job posting was found for this Latent. This is a founder play, not an application to a posted role. The ask in the outreach is a 20-minute call or a 2-week trial, not a claim about a role.
+5. No job posting was found for this Latent. This is a founder play, not an application to a posted role. The ask in the outreach is a 20-minute call or a 1-2 week trial, not a claim about a role.
 
 ## The real loop
 

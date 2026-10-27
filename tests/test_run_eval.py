@@ -45,13 +45,18 @@ class TestLoadCases(unittest.TestCase):
             {"expected": "pass", "v": "escalate"},
             {"expected": "pass", "v": "pass"},
             {"expected": "unscored", "v": "unscored"},
+            # "ood" is a flagged verdict, like "escalate": it counts as a
+            # hit on an escalate-expected case and a false flag on a
+            # pass-expected one, never as a plain pass.
+            {"expected": "escalate", "v": "ood"},
+            {"expected": "pass", "v": "ood"},
         ]
         stats = _pr(rows, "v")
-        self.assertEqual(stats["cases"], 4)
+        self.assertEqual(stats["cases"], 6)
         self.assertEqual((stats["true_positives"], stats["false_negatives"],
-                          stats["false_positives"], stats["true_negatives"]), (1, 1, 1, 1))
+                          stats["false_positives"], stats["true_negatives"]), (2, 1, 2, 1))
         self.assertEqual(stats["precision"], 0.5)
-        self.assertEqual(stats["recall"], 0.5)
+        self.assertEqual(stats["recall"], 0.6667)
 
 
 if __name__ == "__main__":
