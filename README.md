@@ -1,77 +1,85 @@
-# Latent proof of work: latent_guard
+# latent_guard: an offline checker on Latent's /score contract
 
-Target: Latent (runlatent.ai), YC Fall 2026, hallucination detection for
-AI apps. Founder: Vedant Gaur. Verified contact: founders@runlatent.ai,
-from their own company page (runlatent.ai/company, read 2026-10-25).
-Booking link on the same page: latent.cal.com/vedant.
+Latent flags the failures that sink AI answers: made up numbers, wrong dates, invented names. This is a small version of that layer, built to Latent's own public contract, that runs anywhere a hosted reader cannot.
 
-## Why Latent fits
+It takes the same shape Latent's SDK posts to `/score`: prompt, answer, and source context in, a verdict plus one risk score per sentence out. It needs no API key, no GPU, and no network, so it works air-gapped, or as a cheap first pass that only sends flagged answers on to a stronger judge.
 
-* Eval and reliability tooling is exactly her work: LangChain
-  multi-agent orchestration, RAG, LLM observability, FastAPI, AWS at
-  Outfit Formulas; LangGraph and MCP/FastMCP at Pine Labs.
-* Latent's own pitch names the failure kinds this build checks:
-  unsupported numbers, wrong dates, invented names, with a review
-  queue, Prometheus and OpenTelemetry hooks, and labeled answers kept
-  for fine-tuning. This build mirrors that shape, offline.
-* No public job posting was found for this Fall 2026 Latent. YC's
-  directory page for the name Latent belongs to an older, different
-  company (W23, medical language models, 50 people, San Francisco
-  onsite). Do not apply through that page. This is a founder play.
+## What it checks
 
-## What was built
+Sentence by sentence, against the supplied context only:
 
-`latent_guard`: a zero dependency Python package.
+- Unsupported number: a number in the answer that appears nowhere in the context (amounts, percents, counts). Risk 0.90.
+- Wrong date: a date in the answer that appears nowhere in the context. Risk 0.85.
+- Invented name: a capitalized name in the answer that appears nowhere in the context. Risk 0.85.
+- Unsupported claim: a factual sentence that shares no content words, number, date, or name with any context sentence. Risk 0.60, a soft signal, below the escalation threshold on purpose.
 
-* `scorer.py`: deterministic sentence level checker against supplied
-  source context. Same request shape as Latent's public SDK contract
-  (prompt, answer, context, back a verdict plus per sentence risk),
-  read from the runlatent 0.3.9 wheel on PyPI. It needs no API key,
-  no GPU and no network.
-* `server.py`: stdlib HTTP sidecar. POST /score, GET /queue,
-  POST /review, GET /metrics, GET /export (labeled JSONL for
-  fine-tuning), GET /health.
-* `queue.py`: review queue. Flagged answers wait for a human decision;
-  each decision becomes one labeled example.
-* `demo/hold_demo.py`: the hold policy from Latent's own site
-  (flagged answer replaced with safe text) on scripted answers.
+Risk 0.70 or above escalates. Below that, the answer passes, with per-sentence risks still reported so nothing is hidden.
 
-## Verification (real numbers, 2026-10-25)
+## Measured results
 
-* Tests: 9/9 passing, stdlib unittest only.
-  Run: `python3 -m unittest discover -s tests -v`
-* Benchmark: 24 fixed cases (12 clean, 12 planted hallucinations),
-  `benchmark/results.json`. Precision 1.0, recall 0.75.
-  Per kind escalated: unsupported number 3/3, wrong date 3/3,
-  invented name 3/3, unsupported claim 0/3 escalated but 3/3 surfaced
-  at sentence level (risk 0.6, below the 0.7 escalation threshold).
-  Mean local scorer latency 0.136 ms. That latency is for this local
-  checker only and is not comparable to Latent's reader.
-* Live check of Latent's real SDK: runlatent 0.3.9 downloaded from
-  PyPI and its /score contract inspected. Their cloud API was NOT
-  called: no API key exists here, and none was invented.
+24 fixed cases in `benchmark/cases.json` (12 clean, 12 planted hallucinations), run with `python benchmark/run.py`. Fully reproducible, no model, no network, fixed answer strings.
 
-## Honest gaps
+| | |
+|---|---|
+| Precision | 1.0 (9 escalated, 0 false flags) |
+| Recall | 0.75 (9 of 12 hallucinations escalated) |
+| Mean scorer latency | 0.14 ms (local checker only, not comparable to Latent's reader) |
 
-* This checker only catches hallucinations that reuse a number, date
-  or name absent from the context, or a claim with no shared content
-  words. A wrong answer built only from in-context facts will pass.
-  That is the same class of limit Latent's own research notes flag
-  for probe based detection.
-* The benchmark is a 24 case fixture set written for this build, not
-  a general accuracy claim. The recall gap (unsupported claims) is
-  real and is stated in the outreach, not hidden.
-* No Latent API key, no GPU, no live model calls: answers in the demo
-  and benchmark are fixed strings. The next step that needs her is
-  a Latent dashboard key if she wants the real reader in the loop.
-* Team size 1, San Francisco, no announced seed beyond YC's standard
-  investment, no remote or India statement, pay undisclosed. The ask
-  in the outreach is a 20 minute call or a 2 week trial, not a job
-  application to a posted role.
+Per kind, escalated: unsupported number 3/3, wrong date 3/3, invented name 3/3, unsupported claim 0/3. The unsupported claims were all surfaced at sentence level (risk 0.60), just below the threshold. That gap is real and is stated here, not hidden.
 
-## Status
+Tests: 9/9 passing, stdlib unittest only. Full rows are in `benchmark/results.json`.
 
-Nothing sent, posted or pushed. Her to dos: create the GitHub repo herself
-and share the URL, send the email to founders@runlatent.ai. No video: she
-decided 2026-10-27 to record no more videos; offer a live walkthrough instead.
-LOOM_SCRIPT.md is superseded.
+## Try it
+
+```bash
+python -m unittest discover -s tests -v
+python benchmark/run.py
+python demo/hold_demo.py
+```
+
+The demo shows Latent's own hold policy from its site: a flagged answer is held and replaced with safe text, a clean answer is delivered.
+
+## Use it as a sidecar
+
+```bash
+python -m latent_guard.server   # listens on 127.0.0.1:8765, data in ./data
+```
+
+```bash
+curl -X POST http://127.0.0.1:8765/score \
+  -H 'Content-Type: application/json' \
+  -d '{"prompt": "Summarize the report.", "answer": "Revenue was $9.9 million.", "context": "Revenue was $4.2 million."}'
+```
+
+Response: verdict, risk, per-sentence risks and reasons, plus `queue_status`. Flagged answers wait in a review queue:
+
+- `GET /queue`: flagged answers awaiting a human decision.
+- `POST /review`: `{"request_id": "...", "decision": "confirmed" | "released", "note": "..."}`. Each decision becomes one labeled example.
+- `GET /metrics`: counts, flag rate, precision on reviewed items.
+- `GET /export`: labeled examples as JSON lines, for fine-tuning.
+- `GET /health`: uptime check.
+
+Or use it as a library, one pure function, no I/O:
+
+```python
+from latent_guard import score_answer
+
+result = score_answer(prompt, answer, context)
+# result["verdict"] is "pass" or "escalate"
+# result["sentences"] carries risk and reasons per sentence
+```
+
+Set `PORT` and `LATENT_GUARD_DATA` to change the port and data directory. No dependencies beyond the standard library.
+
+## Honest limits
+
+1. This checker only catches hallucinations that reuse a number, date, or name absent from the context, or a claim with no shared content words. A wrong answer built only from in-context facts, combined wrongly, will pass. That is the same class of limit Latent's own research notes flag for probe based detection.
+2. The benchmark is a 24-case fixture set written for this build, not a general accuracy claim. The recall gap on freeform unsupported claims is real.
+3. No Latent API key, no GPU, no live model calls. Answers in the demo and benchmark are fixed strings. Latent's cloud API was not called. The contract was read from the public `runlatent` 0.3.9 wheel on PyPI.
+4. No job posting was found for this Latent. This is a founder play, not an application to a posted role. The ask in the outreach is a 20-minute call or a 2-week trial, not a claim about a role.
+
+## What is next
+
+The useful next step is to run this next to the real reader: same prompt, answer, and context through both, compare verdicts on real traffic, and tune the threshold and the unsupported-claim signal on labeled review decisions from the queue. That needs a Latent dashboard key if you want the real reader in the loop. I am happy to run it as a 2-week trial against your reader, or walk through the code live.
+
+Built by Depika Gupta, AI and backend engineer. I build LangChain multi-agent systems, RAG, and LLM observability at a remote US startup. github.com/depikaguptaa
