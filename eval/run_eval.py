@@ -1,5 +1,11 @@
 """Run the same cases through the local checker and the real reader.
 
+The suite is all 54 cases: the 30 adversarial cases in
+eval/adversarial_cases.json plus the 24 benchmark cases in
+benchmark/cases.json (clean maps to pass, hallucinated maps to
+escalate). Case ids repeat across the two files, so every row carries
+its source suite.
+
 The reader column is never invented. Without LATENT_API_URL and
 LATENT_API_KEY (and runlatent installed) every reader result is
 reported as not_run, with unscored counts of zero and no precision or
@@ -31,6 +37,51 @@ from latent_guard.scorer import score_answer  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
+DEFAULT_PROMPT = "Summarize the Aurora Growth Fund Q3 2026 report."
+
+
+def _load_cases() -> list[dict]:
+    """All 54 cases, normalized to one shape.
+
+    Adversarial rows keep their own expected verdicts (pass, escalate,
+    unscored) and per-case context. Benchmark rows map clean to pass
+    and hallucinated to escalate, share the benchmark file's context,
+    and load kind null (clean controls) as kind "clean". Case ids
+    repeat across the two files (clean-01 exists in both), so every
+    row carries its source suite.
+    """
+    with open(os.path.join(HERE, "adversarial_cases.json"), encoding="utf-8") as f:
+        adv = json.load(f)
+    cases = []
+    for case in adv["cases"]:
+        if case["expected"] not in ("pass", "escalate", "unscored"):
+            raise ValueError(f"unknown adversarial expected: {case['expected']!r}")
+        cases.append({
+            "source": "adversarial",
+            "id": case["id"],
+            "kind": case["kind"],
+            "expected": case["expected"],
+            "answer": case["answer"],
+            "context": case.get("context", adv["context"]),
+            "prompt": case.get("prompt", DEFAULT_PROMPT),
+        })
+    with open(os.path.join(HERE, "..", "benchmark", "cases.json"), encoding="utf-8") as f:
+        bench = json.load(f)
+    mapping = {"clean": "pass", "hallucinated": "escalate"}
+    for case in bench["cases"]:
+        if case["expected"] not in mapping:
+            raise ValueError(f"unknown benchmark expected: {case['expected']!r}")
+        cases.append({
+            "source": "benchmark",
+            "id": case["id"],
+            "kind": case.get("kind") or "clean",
+            "expected": mapping[case["expected"]],
+            "answer": case["answer"],
+            "context": bench["context"],
+            "prompt": DEFAULT_PROMPT,
+        })
+    return cases
+
 
 def _pr(rows: list[dict], key: str) -> dict:
     scored = [r for r in rows if r["expected"] in ("pass", "escalate")]
@@ -48,18 +99,17 @@ def _pr(rows: list[dict], key: str) -> dict:
 
 
 def main() -> int:
-    with open(os.path.join(HERE, "adversarial_cases.json"), encoding="utf-8") as f:
-        data = json.load(f)
-    default_context = data["context"]
+    cases = _load_cases()
     reader = LatentReader()
     reader_configured = reader.configured
 
     rows = []
-    for case in data["cases"]:
-        context = case.get("context", default_context)
-        prompt = case.get("prompt", "Summarize the Aurora Growth Fund Q3 2026 report.")
+    for case in cases:
+        context = case["context"]
+        prompt = case["prompt"]
         local = score_answer(prompt, case["answer"], context)
         row = {
+            "source": case["source"],
             "id": case["id"], "kind": case["kind"], "expected": case["expected"],
             "answer": case["answer"],
             "local_verdict": local["verdict"], "local_risk": local["risk"],

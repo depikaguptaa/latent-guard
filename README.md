@@ -27,9 +27,9 @@ Risk 0.70 or above escalates. Below that, the answer passes, with per-sentence r
 
 Per kind, escalated: unsupported number 3/3, wrong date 3/3, invented name 3/3, unsupported claim 0/3. The unsupported claims were all surfaced at sentence level (risk 0.60), just below the threshold. That gap is real and is stated here, not hidden.
 
-Tests: 26/26 passing, stdlib unittest only, including the reader wrapper, guardrail, hash-only queue, and server alias tests. Full rows are in `benchmark/results.json`.
+Tests: 30/30 passing, stdlib unittest only, including the reader wrapper, guardrail, hash-only queue, server alias tests, and eval case-loading tests. Full rows are in `benchmark/results.json`.
 
-On the harder 30-case adversarial set in `eval/adversarial_cases.json` (unit conversions, date formats, same-token contradictions, negation, single names, no-source cases), the local checker scores precision 0.67 and recall 0.44: it false-flags both date-format and both unit-conversion variants and misses every contradiction and negation. The reader column in `eval/results.json` is not run, because no key exists here. That gap is the reason the checker is a pre-filter only.
+On the full 54-case suite in `eval/results.json` (the 30 adversarial cases plus the 24 benchmark cases, run side by side by `eval/run_eval.py`), the local checker scores precision 0.81 and recall 0.57. On the harder 30-case adversarial subset alone it scores precision 0.67 and recall 0.44: it false-flags both date-format and both unit-conversion variants and misses every contradiction and negation. The reader column in `eval/results.json` is not run, because no key exists here. That gap is the reason the checker is a pre-filter only.
 
 ## Try it
 
@@ -83,11 +83,11 @@ Set `PORT` and `LATENT_GUARD_DATA` to change the port and data directory. No dep
 
 ## The real loop
 
-`eval/run_eval.py` runs the same cases through the local checker and through the real reader, side by side, and refuses to invent the reader's numbers. Without a key it reports the reader column as not run. With a key it compares verdicts, per-kind recall, unscored counts, and latency, and lists every case where the two disagree.
+`eval/run_eval.py` runs all 54 cases through the local checker and through the real reader, side by side, and refuses to invent the reader's numbers. Without a key it reports the reader column as not run. With a key it compares verdicts, per-kind recall, unscored counts, and latency, and lists every case where the two disagree.
 
 ```bash
 pip install "runlatent==0.3.9"
-export LATENT_API_URL="https://api.runlatent.ai"
+export LATENT_API_URL="https://app.runlatent.ai"
 export LATENT_API_KEY="your key here"
 python eval/run_eval.py
 ```
